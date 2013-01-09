@@ -1,5 +1,5 @@
 {
-    "name": "kdyby/facebook-sdk-extension",
+    "name": "kdyby/facebook",
     "type":"library",
     "description": "Facebook PHP SDK for Nette Framework",
     "keywords": ["nette", "facebook", "sdk"],
@@ -23,15 +23,14 @@
     "minimum-stability":"dev",
     "support":{
         "email":"filip@prochazka.su",
-        "issues":"https://github.com/kdyby/framework/issues"
+        "issues":"https://github.com/kdyby/facebook/issues"
     },
     "autoload": {
         "psr-0":{
-            "Kdyby\\Extension\\Social\\Facebook":""
+            "Kdyby\\Facebook":""
         },
         "classmap":[
-            "Kdyby/Extension/Social/Facebook/exceptions.php"
+            "src/Kdyby/Facebook/exceptions.php"
         ]
-    },
-    "target-dir":"Kdyby/Extension/Social/Facebook"
+    }
 }
