@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Kdyby\Extension\Social\Facebook\Diagnostics;
+namespace Kdyby\Facebook\Diagnostics;
 
-use Kdyby\Extension\Social\Facebook;
-use Kdyby\Extension\Social\Facebook\Api\CurlClient;
+use Kdyby\Facebook;
+use Kdyby\Facebook\Api\CurlClient;
 use Nette;
 use Nette\Diagnostics\Debugger;
 use Nette\Utils\Html;
@@ -151,7 +151,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 
 	/**
-	 * @param \Kdyby\Extension\Social\Facebook\Api\CurlClient $client
+	 * @param \Kdyby\Facebook\Api\CurlClient $client
 	 */
 	public function register(CurlClient $client)
 	{

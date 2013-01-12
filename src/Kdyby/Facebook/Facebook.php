@@ -8,10 +8,10 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Kdyby\Extension\Social\Facebook;
+namespace Kdyby\Facebook;
 
 use Nette;
-use Kdyby\Extension\Social\Facebook\Api\CurlClient;
+use Kdyby\Facebook\Api\CurlClient;
 use Nette\Diagnostics\Debugger;
 use Nette\Utils\Strings;
 
@@ -24,9 +24,9 @@ use Nette\Utils\Strings;
  * implement the four abstract methods listed at the bottom of
  * the file.
  *
- * @property \Kdyby\Extension\Social\Facebook\Configuration $config
- * @property \Kdyby\Extension\Social\Facebook\SessionStorage $session
- * @property \Kdyby\Extension\Social\Facebook\Profile $profile
+ * @property \Kdyby\Facebook\Configuration $config
+ * @property \Kdyby\Facebook\SessionStorage $session
+ * @property \Kdyby\Facebook\Profile $profile
  *
  * @author Naitik Shah <naitik@facebook.com>
  */
@@ -86,9 +86,9 @@ class Facebook extends Nette\Object
 	 * @var array
 	 */
 	public static $dialogs = array(
-		'login' => 'Kdyby\Extension\Social\Facebook\Dialog\LoginDialog',
-		'loginStatus' => 'Kdyby\Extension\Social\Facebook\Dialog\LoginStatusDialog',
-		'logout' => 'Kdyby\Extension\Social\Facebook\Dialog\LogoutDialog',
+		'login' => 'Kdyby\Facebook\Dialog\LoginDialog',
+		'loginStatus' => 'Kdyby\Facebook\Dialog\LoginStatusDialog',
+		'logout' => 'Kdyby\Facebook\Dialog\LogoutDialog',
 	);
 
 

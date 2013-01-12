@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Kdyby\Extension\Social\Facebook;
+namespace Kdyby\Facebook;
 
 use Nette;
 use Nette\Diagnostics\Debugger;
@@ -32,10 +32,10 @@ class Helpers extends Nette\Object
 	 */
 	public static function isVideoPost($path, $method = NULL)
 	{
-		if ($method == 'POST' && preg_match("/^(\/)(.+)(\/)(videos)$/", $path)) {
-			return true;
+		if ($method == 'POST' && preg_match('~^(\\/)(.+)(\\/)(videos)$~', $path)) {
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 
@@ -83,7 +83,7 @@ class Helpers extends Nette\Object
 	public static function isAllowedDomain($big, $small)
 	{
 		if ($big === $small) {
-			return true;
+			return TRUE;
 		}
 
 		return Strings::endsWith($big, '.' . $small);

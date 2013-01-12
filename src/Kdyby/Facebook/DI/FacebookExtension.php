@@ -8,7 +8,7 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Kdyby\Extension\Social\Facebook\DI;
+namespace Kdyby\Facebook\DI;
 
 use Nette;
 use Nette\Utils\Validators;
@@ -48,7 +48,7 @@ class FacebookExtension extends Nette\Config\CompilerExtension
 		Validators::assert($config['permissions'], 'list', "permissions scope");
 
 		$configurator = $builder->addDefinition($this->prefix('config'))
-			->setClass('Kdyby\Extension\Social\Facebook\Configuration')
+			->setClass('Kdyby\Facebook\Configuration')
 			->setArguments(array($config['appId'], $config['appSecret']))
 			->addSetup('$fileUploadSupport', array($config['fileUploadSupport']))
 			->addSetup('$trustForwarded', array($config['trustForwarded']))
@@ -60,24 +60,24 @@ class FacebookExtension extends Nette\Config\CompilerExtension
 		}
 
 		$builder->addDefinition($this->prefix('session'))
-			->setClass('Kdyby\Extension\Social\Facebook\SessionStorage')
+			->setClass('Kdyby\Facebook\SessionStorage')
 			->setInject(FALSE);
 
 		$apiClient = $builder->addDefinition($this->prefix('apiClient'))
-			->setFactory('Kdyby\Extension\Social\Facebook\Api\CurlClient')
-			->setClass('Kdyby\Extension\Social\Facebook\ApiClient')
+			->setFactory('Kdyby\Facebook\Api\CurlClient')
+			->setClass('Kdyby\Facebook\ApiClient')
 			->setInject(FALSE);
 
 		if ($builder->parameters['debugMode']) {
 			$builder->addDefinition($this->prefix('panel'))
-				->setClass('Kdyby\Extension\Social\Facebook\Diagnostics\Panel')
+				->setClass('Kdyby\Facebook\Diagnostics\Panel')
 				->setInject(FALSE);
 
 			$apiClient->addSetup($this->prefix('@panel') . '::register', array('@self'));
 		}
 
 		$builder->addDefinition($this->prefix('client'))
-			->setClass('Kdyby\Extension\Social\Facebook\Facebook')
+			->setClass('Kdyby\Facebook\Facebook')
 			->setInject(FALSE);
 	}
 

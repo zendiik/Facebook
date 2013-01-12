@@ -8,14 +8,14 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
-namespace Kdyby\Extension\Social\Facebook\Api;
+namespace Kdyby\Facebook\Api;
 
 use Nette;
 use Nette\Utils\Strings;
 use Nette\Diagnostics\Debugger;
 use Nette\Http\UrlScript;
 use Nette\Utils\Json;
-use Kdyby\Extension\Social\Facebook;
+use Kdyby\Facebook;
 
 
 
@@ -23,7 +23,7 @@ use Kdyby\Extension\Social\Facebook;
  * @author Filip Procházka <filip@prochazka.su>
  *
  * @method onRequest($url, $params)
- * @method onError(\Kdyby\Extension\Social\Facebook\Exception $e, array $info)
+ * @method onError(\Kdyby\Facebook\Exception $e, array $info)
  * @method onSuccess(array $result, array $info)
  */
 class CurlClient extends Nette\Object implements Facebook\ApiClient
