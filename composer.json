@@ -20,6 +20,9 @@
         "ext-curl": "*",
         "ext-json": "*"
     },
+	"require-dev": {
+		"nette/tester": "@dev"
+	},
     "minimum-stability":"dev",
     "support":{
         "email":"filip@prochazka.su",
