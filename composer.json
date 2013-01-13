@@ -1,39 +1,39 @@
 {
-    "name": "kdyby/facebook",
-    "type":"library",
-    "description": "Facebook PHP SDK for Nette Framework",
-    "keywords": ["nette", "facebook", "sdk"],
-    "homepage":"http://kdyby.org",
-    "license":["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
-    "authors": [
-        {
-            "name":"Filip Procházka",
-            "homepage":"http://filip-prochazka.com"
-        },
-        {
-            "name":"Facebook",
-            "homepage":"https://github.com/facebook/facebook-php-sdk/contributors"
-        }
-    ],
-    "require": {
-        "nette/nette": "*",
-        "ext-curl": "*",
-        "ext-json": "*"
-    },
+	"name": "kdyby/facebook",
+	"type": "library",
+	"description": "Facebook PHP SDK for Nette Framework",
+	"keywords": ["nette", "facebook", "sdk"],
+	"homepage": "http://kdyby.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "Filip Procházka",
+			"homepage": "http://filip-prochazka.com"
+		},
+		{
+			"name": "Facebook",
+			"homepage": "https://github.com/facebook/facebook-php-sdk/contributors"
+		}
+	],
+	"require": {
+		"nette/nette": "*",
+		"ext-curl": "*",
+		"ext-json": "*"
+	},
 	"require-dev": {
 		"nette/tester": "@dev"
 	},
-    "minimum-stability":"dev",
-    "support":{
-        "email":"filip@prochazka.su",
-        "issues":"https://github.com/kdyby/facebook/issues"
-    },
-    "autoload": {
-        "psr-0":{
-            "Kdyby\\Facebook":""
-        },
-        "classmap":[
-            "src/Kdyby/Facebook/exceptions.php"
-        ]
-    }
+	"minimum-stability": "dev",
+	"support": {
+		"email": "filip@prochazka.su",
+		"issues": "https://github.com/kdyby/facebook/issues"
+	},
+	"autoload": {
+		"psr-0": {
+			"Kdyby\\Facebook\\": "src/"
+		},
+		"classmap": [
+			"src/Kdyby/Facebook/exceptions.php"
+		]
+	}
 }
