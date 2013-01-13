@@ -3,6 +3,7 @@
 /**
  * Test: Kdyby\Facebook\Configuration format methods.
  *
+ * @testCase KdybyTests\Facebook\ConfigurationTest
  * @author Filip Procházka <filip@prochazka.su>
  * @package Kdyby\Facebook
  */
