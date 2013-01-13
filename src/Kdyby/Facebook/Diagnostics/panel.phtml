@@ -15,7 +15,7 @@
         </tr>
         <?php foreach($this->calls as $call): ?>
         <tr>
-            <td><pre class="nette-dump"><span class="php-string"><?php echo $esc($call->url->host . $call->url->path); ?></span></pre></td>
+            <td><pre class="nette-dump"><span class="php-string"><?php echo $esc((string) $call->url); ?></span></pre></td>
             <td><?php echo $esc(number_format($call->time * 1000, 2, '.', ' ')) ?></td>
             <td><?php echo $click($call->result ?: $call->exception, TRUE); ?></td>
             <td><?php echo $click($call->params, TRUE); ?></td>
