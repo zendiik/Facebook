@@ -3,19 +3,18 @@
 /**
  * This file is part of the Kdyby (http://www.kdyby.org)
  *
- * Copyright (c) 2008, 2012 Filip Procházka (filip@prochazka.su)
+ * Copyright (c) 2008 Filip Procházka (filip@prochazka.su)
  *
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
 namespace Kdyby\Facebook\Api;
-
+use Kdyby\Facebook;
 use Nette;
-use Nette\Utils\Strings;
 use Nette\Diagnostics\Debugger;
 use Nette\Http\UrlScript;
 use Nette\Utils\Json;
-use Kdyby\Facebook;
+use Nette\Utils\Strings;
 
 
 
@@ -35,11 +34,11 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 */
 	public $curlOptions = array(
 		CURLOPT_CONNECTTIMEOUT => 10,
-		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_RETURNTRANSFER => TRUE,
 		CURLOPT_TIMEOUT => 20,
 		CURLOPT_USERAGENT => 'facebook-php-3.2',
 		CURLOPT_HTTPHEADER => array(),
-		CURLINFO_HEADER_OUT => true
+		CURLINFO_HEADER_OUT => TRUE
 	);
 
 	/**
@@ -189,7 +188,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 * @throws Facebook\FacebookApiException
 	 * @return string The response text
 	 */
-	protected function makeRequest($url, array $params, $ch = null)
+	protected function makeRequest($url, array $params, $ch = NULL)
 	{
 		if (isset($this->cache[$cacheKey = md5(serialize(array($url, $params)))])) {
 			return $this->cache[$cacheKey];
@@ -201,7 +200,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 
 		$opts = $this->curlOptions;
 		$opts[CURLOPT_POSTFIELDS] = $this->fb->config->fileUploadSupport
-			? $params : http_build_query($params, null, '&');
+			? $params : http_build_query($params, NULL, '&');
 		$opts[CURLOPT_URL] = (string)$url;
 
 		// disable the 'Expect: 100-continue' behaviour. This causes CURL to wait
@@ -224,7 +223,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		// the case, curl will try IPv4 first and if that fails, then it will
 		// fall back to IPv6 and the error EHOSTUNREACH is returned by the
 		// operating system.
-		if ($result === false && empty($opts[CURLOPT_IPRESOLVE])) {
+		if ($result === FALSE && empty($opts[CURLOPT_IPRESOLVE])) {
 			$matches = array();
 			if (preg_match('/Failed to connect to ([^:].*): Network is unreachable/', curl_error($ch), $matches)) {
 				if (strlen(@inet_pton($matches[1])) === 16) {
@@ -239,7 +238,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		$info = curl_getinfo($ch);
 		$info['request_header'] = Strings::split(trim($info['request_header']), '~[\r\n]+~');
 
-		if ($result === false) {
+		if ($result === FALSE) {
 			$e = new Facebook\FacebookApiException(array(
 				'error_code' => curl_errno($ch),
 				'error' => array('message' => curl_error($ch), 'type' => 'CurlException')
@@ -292,9 +291,9 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 */
 	protected function apiErrorRequiresSessionDestroy($message)
 	{
-		return strpos($message, 'Error validating access token') !== false
-			|| strpos($message, 'Invalid OAuth access token') !== false
-			|| strpos($message, 'An active access token must be used') !== false;
+		return strpos($message, 'Error validating access token') !== FALSE
+			|| strpos($message, 'Invalid OAuth access token') !== FALSE
+			|| strpos($message, 'An active access token must be used') !== FALSE;
 	}
 
 }

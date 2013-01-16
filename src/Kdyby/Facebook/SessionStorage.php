@@ -3,13 +3,12 @@
 /**
  * This file is part of the Kdyby (http://www.kdyby.org)
  *
- * Copyright (c) 2008, 2012 Filip Procházka (filip@prochazka.su)
+ * Copyright (c) 2008 Filip Procházka (filip@prochazka.su)
  *
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
 namespace Kdyby\Facebook;
-
 use Nette;
 use Nette\Diagnostics\Debugger;
 
@@ -155,7 +154,7 @@ class SessionStorage extends Nette\Object
 	 *
 	 * @return mixed
 	 */
-	public function get($key, $default = false)
+	public function get($key, $default = FALSE)
 	{
 		return isset($this->session->$key) ? $this->session->$key : $default;
 	}

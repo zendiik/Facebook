@@ -3,13 +3,12 @@
 /**
  * This file is part of the Kdyby (http://www.kdyby.org)
  *
- * Copyright (c) 2008, 2012 Filip Procházka (filip@prochazka.su)
+ * Copyright (c) 2008 Filip Procházka (filip@prochazka.su)
  *
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
 namespace Kdyby\Facebook;
-
 use Nette;
 use Nette\Diagnostics\Debugger;
 use Nette\Utils\Json;
@@ -40,14 +39,14 @@ class SignedRequest extends Nette\Object
 
 		if (strtoupper($data['algorithm']) !== Configuration::SIGNED_REQUEST_ALGORITHM) {
 			Debugger::log('Unknown algorithm. Expected ' . Configuration::SIGNED_REQUEST_ALGORITHM, 'facebook');
-			return null;
+			return NULL;
 		}
 
 		// check sig
-		$expected_sig = hash_hmac('sha256', $payload, $appSecret, $raw = true);
+		$expected_sig = hash_hmac('sha256', $payload, $appSecret, $raw = TRUE);
 		if ($sig !== $expected_sig) {
 			Debugger::log('Bad Signed JSON signature!', 'facebook');
-			return null;
+			return NULL;
 		}
 
 		return $data;
@@ -66,14 +65,14 @@ class SignedRequest extends Nette\Object
 	public static function encode($data, $appSecret)
 	{
 		if (!is_array($data)) {
-			throw new InvalidArgumentException('makeSignedRequest expects an array. Got: ' . print_r($data, true));
+			throw new InvalidArgumentException('makeSignedRequest expects an array. Got: ' . print_r($data, TRUE));
 		}
 
 		$data['algorithm'] = Configuration::SIGNED_REQUEST_ALGORITHM;
 		$data['issued_at'] = time();
 
 		$b64 = Helpers::base64UrlEncode(Json::encode($data));
-		$raw_sig = hash_hmac('sha256', $b64, $appSecret, $raw = true);
+		$raw_sig = hash_hmac('sha256', $b64, $appSecret, $raw = TRUE);
 		$sig = Helpers::base64UrlEncode($raw_sig);
 
 		return $sig . '.' . $b64;

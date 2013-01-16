@@ -3,15 +3,14 @@
 /**
  * This file is part of the Kdyby (http://www.kdyby.org)
  *
- * Copyright (c) 2008, 2012 Filip Procházka (filip@prochazka.su)
+ * Copyright (c) 2008 Filip Procházka (filip@prochazka.su)
  *
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
 namespace Kdyby\Facebook;
-
-use Nette;
 use Kdyby\Facebook\Api\CurlClient;
+use Nette;
 use Nette\Diagnostics\Debugger;
 use Nette\Utils\Strings;
 
@@ -257,23 +256,23 @@ class Facebook extends Nette\Object
 			);
 
 			if (empty($response)) {
-				return false;
+				return FALSE;
 			}
 
 			parse_str($response, $params);
 			if (!isset($params['access_token'])) {
-				return false;
+				return FALSE;
 			}
 
 			$this->destroySession();
 			$this->session->access_token = $params['access_token'];
 
-			return true;
+			return TRUE;
 
 		} catch (FacebookApiException $e) {
 			// most likely that user very recently revoked authorization.
 			// In any event, we don't have an access token, so say so.
-			return false;
+			return FALSE;
 		}
 	}
 
@@ -339,7 +338,7 @@ class Facebook extends Nette\Object
 			// signed request states there's no access token, so anything
 			// stored should be cleared.
 			$this->session->clearAll();
-			return false;
+			return FALSE;
 			// respect the signed request's data, even
 			// if there's an authorization code or something else
 		}
@@ -352,7 +351,7 @@ class Facebook extends Nette\Object
 
 			// code was bogus, so everything based on it should be invalidated.
 			$this->session->clearAll();
-			return false;
+			return FALSE;
 		}
 
 		// as a fallback, just return whatever is in the persistent
@@ -444,7 +443,7 @@ class Facebook extends Nette\Object
 			return $code;
 		}
 
-		return false;
+		return FALSE;
 	}
 
 
@@ -483,10 +482,10 @@ class Facebook extends Nette\Object
 	 * @param null $redirectUri
 	 * @return mixed An access token exchanged for the authorization code, or false if an access token could not be generated.
 	 */
-	protected function getAccessTokenFromCode($code, $redirectUri = null)
+	protected function getAccessTokenFromCode($code, $redirectUri = NULL)
 	{
 		if (empty($code)) {
-			return false;
+			return FALSE;
 		}
 
 		$redirectUri = $redirectUri ?: $this->getCurrentUrl();
@@ -505,19 +504,19 @@ class Facebook extends Nette\Object
 			);
 
 			if (empty($accessToken)) {
-				return false;
+				return FALSE;
 			}
 
 		} catch (FacebookApiException $e) {
 			// most likely that user very recently revoked authorization.
 			// In any event, we don't have an access token, so say so.
-			return false;
+			return FALSE;
 		}
 
 		$params = array();
 		parse_str($accessToken, $params);
 		if (!isset($params['access_token'])) {
-			return false;
+			return FALSE;
 		}
 
 		return $params['access_token'];
@@ -576,9 +575,9 @@ class Facebook extends Nette\Object
 	 */
 	public function destroySession()
 	{
-		$this->accessToken = null;
-		$this->signedRequest = null;
-		$this->user = null;
+		$this->accessToken = NULL;
+		$this->signedRequest = NULL;
+		$this->user = NULL;
 		$this->session->clearAll();
 
 		// Javascript sets a cookie that will be used in getSignedRequest that we need to clear if we can
