@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook\Diagnostics;
+
 use Kdyby\Facebook;
 use Kdyby\Facebook\Api\CurlClient;
 use Nette;

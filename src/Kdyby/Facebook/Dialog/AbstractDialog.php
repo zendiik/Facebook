@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook\Dialog;
+
 use Kdyby\Facebook;
 use Nette;
 use Nette\Application\UI\PresenterComponent;

@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook;
+
 use Nette;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\MemoryStorage;
@@ -16,19 +17,7 @@ use Nette\Caching\Storages\MemoryStorage;
 
 
 /**
- * This component is an interlink between lifecycle of Nette presenters & Facebook API
- *
- * <code>
- * $fb = $facebook->createControl();
- * $fb->on['login']['response'] = function (Fb\Dialog\LoginDialog $dialog) {
- * 	$me = $dialog->getFacebook()->api('/me');
- * 	$dialog->presenter->flashMessage("Hi " . $me['first_name'] . '!');
- * };
- * $fb->on['logout']['response'] = function (Fb\Dialog\LogoutDialog $dialog) {
- * 	$dialog->presenter->flashMessage("Come back soon!");
- * };
- * </code>
- *
+ * @internal
  * @author Filip Procházka <filip@prochazka.su>
  */
 class FacebookControl extends Nette\Application\UI\PresenterComponent

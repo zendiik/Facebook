@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook\DI;
+
 use Nette;
 use Nette\Utils\Validators;
 

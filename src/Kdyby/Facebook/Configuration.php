@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook;
+
 use Nette;
 use Nette\Http\UrlScript;
 

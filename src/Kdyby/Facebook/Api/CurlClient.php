@@ -9,6 +9,7 @@
  */
 
 namespace Kdyby\Facebook\Api;
+
 use Kdyby\Facebook;
 use Nette;
 use Nette\Diagnostics\Debugger;
