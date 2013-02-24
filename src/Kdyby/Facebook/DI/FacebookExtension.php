@@ -94,3 +94,8 @@ class FacebookExtension extends Nette\Config\CompilerExtension
 	}
 
 }
+
+// bc
+Nette\DI\ServiceDefinition::extensionMethod('setInject', function ($_this) {
+	return $_this;
+});
