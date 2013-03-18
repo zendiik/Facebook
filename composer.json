@@ -16,14 +16,13 @@
 		}
 	],
 	"require": {
-		"nette/nette": "@dev",
+		"nette/nette": "2.0.*",
 		"ext-curl": "*",
 		"ext-json": "*"
 	},
 	"require-dev": {
 		"nette/tester": "@dev"
 	},
-	"minimum-stability": "dev",
 	"support": {
 		"email": "filip@prochazka.su",
 		"issues": "https://github.com/kdyby/facebook/issues"
