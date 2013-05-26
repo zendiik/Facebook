@@ -160,7 +160,7 @@ class Facebook extends Nette\Object
 	 * @param string|array $pathOrParams
 	 * @param string $method
 	 * @param array $params
-	 *
+	 * @throws \Kdyby\Facebook\FacebookApiException
 	 * @return \Nette\ArrayHash|NULL The decoded response
 	 */
 	public function api($pathOrParams, $method = NULL, array $params = array())
