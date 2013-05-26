@@ -22,7 +22,7 @@ use Nette;
  *
  * @author Filip Procházka <filip@prochazka.su>
  */
-interface Dialog
+interface Dialog extends Nette\ComponentModel\IComponent
 {
 
 	const DISPLAY_PAGE = 'page';
@@ -39,10 +39,5 @@ interface Dialog
 	 * @return string
 	 */
 	function getUrl($display = self::DISPLAY_POPUP, $showError = FALSE);
-
-	/**
-	 * @return Facebook
-	 */
-	function getFacebook();
 
 }
