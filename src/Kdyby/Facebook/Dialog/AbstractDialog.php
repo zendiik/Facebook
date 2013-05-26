@@ -100,6 +100,8 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 
 
 	/**
+	 * Facebook get's the url for this handle when redirecting to login dialog.
+	 * It automatically calls the onResponse event.
 	 */
 	public function handleResponse()
 	{
@@ -153,9 +155,17 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 	 */
 	public function open()
 	{
-		$httpResponse = new Nette\Http\Response();
-		$httpResponse->redirect($this->getUrl());
-		throw new Nette\Application\AbortException;
+		$this->presenter->redirectUrl($this->getUrl());
+	}
+
+
+
+	/**
+	 * Opens the dialog.
+	 */
+	public function handleOpen()
+	{
+		$this->open();
 	}
 
 
@@ -168,20 +178,6 @@ abstract class AbstractDialog extends PresenterComponent implements Facebook\Dia
 	public function getControl($display = NULL, $showError = FALSE)
 	{
 		return Html::el('a')->href($this->getUrl($display, $showError));
-	}
-
-
-
-	/**
-	 * @param string $title
-	 * @param string $display
-	 * @param bool $showError
-	 */
-	public function render($title = "click me!", $display = self::DISPLAY_POPUP, $showError = FALSE)
-	{
-		echo $this->getControl($display, $showError)
-			->setText($title)
-			->target('_blank');
 	}
 
 }

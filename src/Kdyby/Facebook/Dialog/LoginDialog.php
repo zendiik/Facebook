@@ -27,10 +27,31 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 
 
 
+	/**
+	 * Facebook get's the url for this handle when redirecting to login dialog.
+	 * It automatically calls the onResponse event.
+	 */
 	public function handleResponse()
 	{
 		$this->facebook->getUser(); // invoke reading of token
 		parent::handleResponse();
+	}
+
+
+
+	/**
+	 * Checks, if there is a user in storage and if not, it redirects to login dialog.
+	 * If the user is already in session storage, it will behave, as if were redirected from facebook right now,
+	 * this means, it will directly call onResponse event.
+	 */
+	public function handleOpen()
+	{
+		if (!$this->facebook->getUser()) { // no user
+			$this->open();
+		}
+
+		$this->onResponse($this);
+		$this->presenter->redirect('this');
 	}
 
 
