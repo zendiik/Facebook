@@ -78,12 +78,13 @@ class LoginDialog extends Facebook\Dialog\AbstractDialog
 		$params = array(
 			'state' => $this->facebook->session->state,
 			'client_id' => $this->facebook->config->appId,
-			'redirect_uri' => (string)$this->currentUrl
+			'redirect_uri' => (string)$this->currentUrl,
+			'cancel_url' => (string)$this->currentUrl,
 		);
 
 		// scope of rights
 		if ($this->scope) {
-			$params['scope'] = $this->scope;
+			$params['scope'] = implode(',', (array) $this->scope);
 
 		} elseif ($scope = $this->facebook->config->permissions) {
 			$params['scope'] = implode(',', (array)$scope);
