@@ -135,14 +135,19 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 */
 	protected function callOauth(UrlScript $url, $params)
 	{
-		$result = Json::decode($this->oauth($url, $params), Json::FORCE_ARRAY);
+		try {
+			$result = Json::decode($response = $this->oauth($url, $params), Json::FORCE_ARRAY);
+
+		} catch (Nette\Utils\JsonException $e) {
+			throw $this->resolveAPIException(array(
+				'error_description' => $e->getMessage() . (isset($response) ? "\n\n" . $response : '')
+			));
+		}
 
 		// results are returned, errors are thrown
-		if (is_array($result) && isset($result['error'])) {
-			$this->throwAPIException($result);
-			// @codeCoverageIgnoreStart
+		if (is_array($result) && (isset($result['error_code']) || isset($result['error']))) {
+			throw $this->resolveAPIException($result);
 		}
-		// @codeCoverageIgnoreEnd
 
 		return $result;
 	}
@@ -270,7 +275,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 * @param $result array A record storing the error message returned by a failed API call.
 	 * @throws Facebook\FacebookApiException
 	 */
-	protected function throwAPIException($result)
+	protected function resolveAPIException($result)
 	{
 		$e = new Facebook\FacebookApiException($result);
 		switch ($e->getType()) {
@@ -283,7 +288,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 				break;
 		}
 
-		throw $e;
+		return $e;
 	}
 
 

@@ -49,14 +49,14 @@ class FacebookApiException extends \Exception implements Exception
 		$code = isset($result['error_code']) ? $result['error_code'] : 0;
 
 		if (isset($result['error_description'])) {
-			// OAuth 2.0 Draft 10 style
-			$msg = $result['error_description'];
-		} else if (isset($result['error']) && is_array($result['error'])) {
-			// OAuth 2.0 Draft 00 style
-			$msg = $result['error']['message'];
-		} else if (isset($result['error_msg'])) {
-			// Rest server style
-			$msg = $result['error_msg'];
+			$msg = $result['error_description']; // OAuth 2.0 Draft 10 style
+
+		} elseif (isset($result['error']) && is_array($result['error'])) {
+			$msg = $result['error']['message']; // OAuth 2.0 Draft 00 style
+
+		} elseif (isset($result['error_msg'])) {
+			$msg = $result['error_msg']; // Rest server style
+
 		} else {
 			$msg = 'Unknown Error. Check getResult()';
 		}
