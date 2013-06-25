@@ -390,6 +390,10 @@ class Facebook extends Nette\Object
 		// who the user is.
 		if ($signedRequest = $this->getSignedRequest()) {
 			if (array_key_exists('user_id', $signedRequest)) {
+				if ($signedRequest['user_id'] != $this->session->user_id) {
+					$this->session->clearAll();
+				}
+
 				return $this->session->user_id = $signedRequest['user_id'];
 			}
 
