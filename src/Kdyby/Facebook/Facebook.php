@@ -89,6 +89,7 @@ class Facebook extends Nette\Object
 	public static $dialogs = array(
 		'login' => 'Kdyby\Facebook\Dialog\LoginDialog',
 		'loginStatus' => 'Kdyby\Facebook\Dialog\LoginStatusDialog',
+		'status' => 'Kdyby\Facebook\Dialog\LoginStatusDialog',
 		'logout' => 'Kdyby\Facebook\Dialog\LogoutDialog',
 	);
 
