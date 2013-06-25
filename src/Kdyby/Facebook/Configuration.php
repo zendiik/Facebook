@@ -145,8 +145,7 @@ class Configuration extends Nette\Object
 	);
 
 	/**
-	 * List of query parameters that get automatically dropped when rebuilding
-	 * the current URL.
+	 * List of query parameters that get automatically dropped when rebuilding the current URL.
 	 * @var array
 	 */
 	public $dropQueryParams = array(

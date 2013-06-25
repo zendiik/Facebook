@@ -54,33 +54,34 @@ class Facebook extends Nette\Object
 	private $apiClient;
 
 	/**
-	 * @var \Nette\Http\Request
-	 */
-	private $httpRequest;
-
-	/**
 	 * @var \Nette\Http\Response
 	 */
 	private $httpResponse;
 
 	/**
-	 * The data from the signed_request token.
-	 * @var string
+	 * @var \Nette\Http\Request
 	 */
-	private $signedRequest;
+	protected $httpRequest;
 
 	/**
 	 * The ID of the Facebook user, or 0 if the user is logged out.
 	 * @var integer
 	 */
-	private $user;
+	protected $user;
 
 	/**
-	 * The OAuth access token received in exchange for a valid authorization
-	 * code.  null means the access token has yet to be determined.
+	 * The OAuth access token received in exchange for a valid authorization code.
+	 * null means the access token has yet to be determined.
 	 * @var string
 	 */
-	private $accessToken;
+	protected $accessToken;
+
+	/**
+	 * The data from the signed_request token.
+	 *
+	 * @var string
+	 */
+	protected $signedRequest;
 
 	/**
 	 * @var array

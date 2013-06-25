@@ -42,8 +42,6 @@ class LoginStatusDialog extends Facebook\Dialog\AbstractDialog
 
 
 
-	/**
-	 */
 	public function handleNoSession()
 	{
 		$this->onResponse($this);
@@ -53,8 +51,6 @@ class LoginStatusDialog extends Facebook\Dialog\AbstractDialog
 
 
 
-	/**
-	 */
 	public function handleNoUser()
 	{
 		$this->onResponse($this);
@@ -64,8 +60,6 @@ class LoginStatusDialog extends Facebook\Dialog\AbstractDialog
 
 
 
-	/**
-	 */
 	public function handleOkSession()
 	{
 		$this->onResponse($this);
