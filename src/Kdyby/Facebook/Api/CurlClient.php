@@ -245,6 +245,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		if (isset($info['request_header'])) {
 			$info['request_header'] = Strings::split(trim($info['request_header']), '~[\r\n]+~');
 		}
+		$info['method'] = isset($params['method']) ? $params['method']: 'GET';
 
 		if ($result === FALSE) {
 			$e = new Facebook\FacebookApiException(array(
