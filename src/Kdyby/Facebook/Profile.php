@@ -103,6 +103,7 @@ class Profile extends Nette\Object
 	}
 
 
+
 	/**
 	 * @param array $params
 	 * @return null
@@ -112,12 +113,32 @@ class Profile extends Nette\Object
 		$params = array_merge($params, array('redirect' => false));
 
 		try {
-			return $this->facebook->api('/' . $this->profileId . '/picture', NULL, $params)->data->url;
+			return $this->facebook->api("/{$this->profileId}/picture", NULL, $params)->data->url;
 
 		} catch (FacebookApiException $e) {
 			return NULL;
 		}
 	}
 
+
+
+	/**
+	 * @param array $params
+	 * @return NULL|Nette\ArrayHash
+	 */
+	public function getPermissions(array $params = array())
+	{
+		$params = array_merge($params, array('access_token' => $this->facebook->getAccessToken()));
+
+		try {
+			$response = $this->facebook->api("/{$this->profileId}/permissions", 'GET', $params);
+			if ($response && !empty($response->data[0])) {
+				return Nette\ArrayHash::from($response->data[0]);
+			}
+
+		} catch (FacebookApiException $e) {
+			return NULL;
+		}
+	}
 
 }
