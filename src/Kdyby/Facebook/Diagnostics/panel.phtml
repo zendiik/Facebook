@@ -1,7 +1,6 @@
 <style>
     #nette-debug .nette-facebookApiPanel { min-width: 700px; }
-    #nette-debug .nette-facebookApiPanel h2 { font-size: 22px; }
-    #nette-debug .nette-facebookApiPanel h2 small { font-size: 13px; }
+    #nette-debug .nette-facebookApiPanel h2 { font-size: 22px; font-weight: bold; }
     #nette-debug .nette-facebookApiPanel table { width: 100%; }
     #nette-debug .nette-facebookApiPanel table th { width: 80px; }
 </style>
@@ -9,11 +8,9 @@
 <h1>Queries: <?php echo $esc(count($this->calls)); ?>, time: <?php echo $esc($totalTime); ?> </h1>
 <div class="nette-inner nette-facebookApiPanel">
 	<?php foreach($this->calls as $call): ?>
-		<h2>
-			<b><?php echo $esc(strtoupper((string) $call->info['method'])); ?> <?php echo $esc((string) $call->url); ?></b>
-			<small>in <?php echo $esc(number_format($call->time * 1000, 2, '.', ' ')) ?>&nbsp;ms</small>
-		</h2>
+		<h2><?php echo $esc(strtoupper((string) $call->info['method'])); ?> <?php echo $esc((string) $call->url); ?></h2>
 		<table>
+			<tr><th>Time</th><td><?php echo $esc(number_format($call->time * 1000, 2, '.', ' ')) ?>&nbsp;ms</td></tr>
 			<tr><th>Response</th><td><?php echo $click($call->result ?: $call->exception, TRUE); ?></td></tr>
 			<tr><th>Params</th><td><?php echo $click($call->params, TRUE); ?></td></tr>
 			<tr><th>Info</th><td><?php echo $click($call->info, TRUE); ?></td></tr>
