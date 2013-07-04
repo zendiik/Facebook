@@ -40,6 +40,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'appSecret' => NULL,
 		'fileUploadSupport' => FALSE,
 		'trustForwarded' => FALSE,
+		'clearAllWithLogout' => TRUE,
 		'domains' => array(),
 		'permissions' => array(),
 	);
@@ -52,11 +53,12 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 
 		$config = $this->getConfig($this->defaults);
 		Validators::assert($config['appId'], 'string', 'Application ID');
-		Validators::assert($config['appSecret'], 'string:32', "Application secret");
-		Validators::assert($config['fileUploadSupport'], 'bool', "file upload support");
-		Validators::assert($config['trustForwarded'], 'bool', "trust forwarded");
-		Validators::assert($config['domains'], 'array', "api domains");
-		Validators::assert($config['permissions'], 'list', "permissions scope");
+		Validators::assert($config['appSecret'], 'string:32', 'Application secret');
+		Validators::assert($config['fileUploadSupport'], 'bool', 'file upload support');
+		Validators::assert($config['trustForwarded'], 'bool', 'trust forwarded');
+		Validators::assert($config['clearAllWithLogout'], 'bool', 'clear the facebook session when user changes');
+		Validators::assert($config['domains'], 'array', 'api domains');
+		Validators::assert($config['permissions'], 'list', 'permissions scope');
 
 		$configurator = $builder->addDefinition($this->prefix('config'))
 			->setClass('Kdyby\Facebook\Configuration')
@@ -90,6 +92,13 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		$builder->addDefinition($this->prefix('client'))
 			->setClass('Kdyby\Facebook\Facebook')
 			->setInject(FALSE);
+
+		if ($config['clearAllWithLogout']) {
+			$builder->getDefinition('user')
+				->addSetup('$sl = ?; ?->onLoggedOut[] = function () use ($sl) { $sl->getService(?)->clearAll(); }', array(
+					'@container', '@self', $this->prefix('session')
+				));
+		}
 	}
 
 
