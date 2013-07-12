@@ -163,7 +163,7 @@ class Facebook extends Nette\Object
 	 * @param string $method
 	 * @param array $params
 	 * @throws \Kdyby\Facebook\FacebookApiException
-	 * @return \Nette\ArrayHash|NULL The decoded response
+	 * @return \Nette\ArrayHash|bool|NULL The decoded response
 	 */
 	public function api($pathOrParams, $method = NULL, array $params = array())
 	{
@@ -174,7 +174,7 @@ class Facebook extends Nette\Object
 			$response = $this->apiClient->graph($pathOrParams, $method, $params);
 		}
 
-		return $response ? Nette\ArrayHash::from($response) : $response;
+		return !is_scalar($response) ? Nette\ArrayHash::from($response) : $response;
 	}
 
 
