@@ -45,8 +45,6 @@ class SessionStorage extends Nette\Object
 
 
 	/**
-	 * @todo: shared session
-	 *
 	 * @param \Nette\Http\Session $session
 	 * @param Configuration $config
 	 */
@@ -55,71 +53,7 @@ class SessionStorage extends Nette\Object
 		$this->session = $session->getSection('Facebook/' . $config->getApplicationAccessToken());
 	}
 
-//	// Stores the shared session ID if one is set.
-//	protected $sharedSessionID;
-//
-//	/**
-//	 * Identical to the parent constructor, except that
-//	 * we start a PHP session to store the user ID and
-//	 * access token if during the course of execution
-//	 * we discover them.
-//	 *
-//	 * @param Array $config the application configuration. Additionally
-//	 * accepts "sharedSession" as a boolean to turn on a secondary
-//	 * cookie for environments with a shared session (that is, your app
-//	 * shares the domain with other apps).
-//	 * @see BaseFacebook::__construct in facebook.php
-//	 */
-//	public function __construct($config)
-//	{
-//		if (!session_id()) {
-//			session_start();
-//		}
-//		parent::__construct($config);
-//		if (!empty($config['sharedSession'])) {
-//			$this->initSharedSession();
-//		}
-//	}
-//
-//
-//
-//	protected function initSharedSession()
-//	{
-//		$cookie_name = $this->getSharedSessionCookieName();
-//		if (isset($_COOKIE[$cookie_name])) {
-//			$data = $this->parseSignedRequest($_COOKIE[$cookie_name]);
-//			if ($data && !empty($data['domain']) &&
-//				self::isAllowedDomain($this->getHttpHost(), $data['domain'])
-//			) {
-//				// good case
-//				$this->sharedSessionID = $data['id'];
-//				return;
-//			}
-//			// ignoring potentially unreachable data
-//		}
-//		// evil/corrupt/missing case
-//		$base_domain = $this->getBaseDomain();
-//		$this->sharedSessionID = md5(uniqid(mt_rand(), true));
-//		$cookie_value = $this->makeSignedRequest(
-//			array(
-//				'domain' => $base_domain,
-//				'id' => $this->sharedSessionID,
-//			)
-//		);
-//		$_COOKIE[$cookie_name] = $cookie_value;
-//		if (!headers_sent()) {
-//			$expire = time() + self::FBSS_COOKIE_EXPIRE;
-//			setcookie($cookie_name, $cookie_value, $expire, '/', '.' . $base_domain);
-//		} else {
-//			// @codeCoverageIgnoreStart
-//			self::errorLog(
-//				'Shared session ID cookie could not be set! You must ensure you ' .
-//					'create the Facebook instance before headers have been sent. This ' .
-//					'will cause authentication issues after the first request.'
-//			);
-//			// @codeCoverageIgnoreEnd
-//		}
-//	}
+
 
 	/**
 	 * Lays down a CSRF state token for this process.
@@ -199,9 +133,6 @@ class SessionStorage extends Nette\Object
 	public function clearAll()
 	{
 		$this->session->remove();
-//		if ($this->sharedSessionID) {
-//			$this->deleteSharedSessionCookie();
-//		}
 	}
 
 
@@ -251,31 +182,5 @@ class SessionStorage extends Nette\Object
 	{
 		$this->clear($name);
 	}
-
-//	protected function deleteSharedSessionCookie()
-//	{
-//		$cookie_name = $this->getSharedSessionCookieName();
-//		unset($_COOKIE[$cookie_name]);
-//		$base_domain = $this->getBaseDomain();
-//		setcookie($cookie_name, '', 1, '/', '.' . $base_domain);
-//	}
-
-
-
-//	protected function getSharedSessionCookieName()
-//	{
-//		return self::FBSS_COOKIE_NAME . '_' . $this->getAppId();
-//	}
-
-
-
-//	protected function constructSessionVariableName($key)
-//	{
-//		$parts = array('fb', $this->getAppId(), $key);
-//		if ($this->sharedSessionID) {
-//			array_unshift($parts, $this->sharedSessionID);
-//		}
-//		return implode('_', $parts);
-//	}
 
 }
