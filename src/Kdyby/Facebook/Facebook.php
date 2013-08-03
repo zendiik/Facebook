@@ -46,17 +46,17 @@ class Facebook extends Nette\Object
 	/**
 	 * @var SessionStorage
 	 */
-	private $session;
+	protected $session;
 
 	/**
 	 * @var ApiClient
 	 */
-	private $apiClient;
+	protected $apiClient;
 
 	/**
 	 * @var \Nette\Http\Response
 	 */
-	private $httpResponse;
+	protected $httpResponse;
 
 	/**
 	 * @var \Nette\Http\Request
@@ -412,11 +412,11 @@ class Facebook extends Nette\Object
 			&& $accessToken !== $this->config->getApplicationAccessToken()
 			&& !($user && $this->session->access_token === $accessToken)
 		) {
-			try {
-				$this->session->user_id = $user = $this->api('/me')->id;
-
-			} catch (FacebookApiException $e) {
+			if (!$user = $this->getUserFromAccessToken()) {
 				$this->session->clearAll();
+
+			} else {
+				$this->session->user_id = $user;
 			}
 		}
 
@@ -485,7 +485,9 @@ class Facebook extends Nette\Object
 			return FALSE;
 		}
 
-		$redirectUri = $redirectUri ?: $this->getCurrentUrl();
+		if ($redirectUri === NULL) {
+			$redirectUri = $this->getCurrentUrl();
+		}
 
 		try {
 			// need to circumvent json_decode by calling _oauthRequest
@@ -581,6 +583,7 @@ class Facebook extends Nette\Object
 		$cookieName = $this->config->getSignedRequestCookieName();
 		if (array_key_exists($cookieName, $this->httpRequest->cookies)) {
 			$this->httpResponse->deleteCookie($cookieName, '/', $this->getBaseDomain());
+			unset($_COOKIE[$cookieName]);
 		}
 	}
 

@@ -39,14 +39,14 @@ class SignedRequest extends Nette\Object
 		$data = Json::decode(Helpers::base64UrlDecode($payload), Json::FORCE_ARRAY);
 
 		if (strtoupper($data['algorithm']) !== Configuration::SIGNED_REQUEST_ALGORITHM) {
-			Debugger::log('Unknown algorithm. Expected ' . Configuration::SIGNED_REQUEST_ALGORITHM, 'facebook');
+			Debugger::log("Unknown algorithm '{$data['algorithm']}', expected " . Configuration::SIGNED_REQUEST_ALGORITHM, 'facebook');
 			return NULL;
 		}
 
 		// check sig
 		$expected_sig = hash_hmac('sha256', $payload, $appSecret, $raw = TRUE);
 		if ($sig !== $expected_sig) {
-			Debugger::log('Bad Signed JSON signature!', 'facebook');
+			Debugger::log('Bad Signed JSON signature! Expected ' . self::dump($expected_sig) . ', but given ' . self::dump($sig), 'facebook');
 			return NULL;
 		}
 
@@ -66,7 +66,7 @@ class SignedRequest extends Nette\Object
 	public static function encode($data, $appSecret)
 	{
 		if (!is_array($data)) {
-			throw new InvalidArgumentException('makeSignedRequest expects an array. Got: ' . print_r($data, TRUE));
+			throw new InvalidArgumentException(__METHOD__ . ' expects an array, but given ' . print_r($data, TRUE));
 		}
 
 		$data['algorithm'] = Configuration::SIGNED_REQUEST_ALGORITHM;
@@ -77,6 +77,17 @@ class SignedRequest extends Nette\Object
 		$sig = Helpers::base64UrlEncode($raw_sig);
 
 		return $sig . '.' . $b64;
+	}
+
+
+
+	private static function dump($struct)
+	{
+		if (class_exists('Nette\Diagnostics\Dumper')) {
+			return Nette\Diagnostics\Dumper::toText($struct);
+		}
+
+		return Nette\Diagnostics\Helpers::textDump($struct);
 	}
 
 }

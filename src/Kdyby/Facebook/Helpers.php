@@ -86,7 +86,11 @@ class Helpers extends Nette\Object
 			return TRUE;
 		}
 
-		return Strings::endsWith($big, '.' . $small);
+		if (($len = strlen($small = '.' . $small)) === 0) {
+			return TRUE;
+		}
+
+		return substr($big, -$len) === $small;
 	}
 
 }

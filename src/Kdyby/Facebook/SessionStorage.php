@@ -21,7 +21,6 @@ use Nette\Diagnostics\Debugger;
  * @property string $state A CSRF state variable to assist in the defense against CSRF attacks.
  * @property string $code
  * @property string $access_token
- * @property string $user
  * @property string $user_id
  */
 class SessionStorage extends Nette\Object
@@ -36,7 +35,12 @@ class SessionStorage extends Nette\Object
 	/**
 	 * @var \Nette\Http\SessionSection
 	 */
-	private $session;
+	protected $session;
+
+	/**
+	 * @var array
+	 */
+	protected static $supportedKeys = array('state', 'code', 'access_token', 'user_id');
 
 
 
@@ -142,6 +146,10 @@ class SessionStorage extends Nette\Object
 	 */
 	public function set($key, $value)
 	{
+		if (!in_array($key, self::$supportedKeys)) {
+			return;
+		}
+
 		$this->session->$key = $value;
 	}
 
@@ -157,6 +165,10 @@ class SessionStorage extends Nette\Object
 	 */
 	public function get($key, $default = FALSE)
 	{
+		if (!in_array($key, self::$supportedKeys)) {
+			return FALSE;
+		}
+
 		return isset($this->session->$key) ? $this->session->$key : $default;
 	}
 
@@ -170,6 +182,10 @@ class SessionStorage extends Nette\Object
 	 */
 	public function clear($key)
 	{
+		if (!in_array($key, self::$supportedKeys)) {
+			return;
+		}
+
 		unset($this->session->$key);
 	}
 
@@ -219,6 +235,10 @@ class SessionStorage extends Nette\Object
 	 */
 	public function __isset($name)
 	{
+		if (!in_array($name, self::$supportedKeys)) {
+			return FALSE;
+		}
+
 		return isset($this->session->$name);
 	}
 
