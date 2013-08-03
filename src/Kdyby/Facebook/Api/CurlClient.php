@@ -18,6 +18,10 @@ use Nette\Utils\Json;
 use Nette\Utils\Strings;
 
 
+if (!defined('CURLE_SSL_CACERT_BADFILE')) {
+	define('CURLE_SSL_CACERT_BADFILE', 77);
+}
+
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
@@ -218,7 +222,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		$result = curl_exec($ch);
 
 		// provide certificate if needed
-		if (curl_errno($ch) == CURLE_SSL_CACERT) {
+		if (curl_errno($ch) == CURLE_SSL_CACERT || curl_errno($ch) === CURLE_SSL_CACERT_BADFILE) {
 			Debugger::log('Invalid or no certificate authority found, using bundled information', 'facebook');
 			curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . '/fb_ca_chain_bundle.crt');
 			$result = curl_exec($ch);
