@@ -11,40 +11,27 @@
 namespace KdybyTests\Facebook;
 
 use Kdyby;
+use KdybyTests;
 use Nette;
 use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/mock.php';
 
 
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class SignedRequestTest extends Tester\TestCase
+class SignedRequestTest extends KdybyTests\FacebookTestCase
 {
-
-	/** @var \Kdyby\Facebook\Configuration */
-	private $config;
-
-
 
 	/**
 	 * @return \SystemContainer|\Nette\DI\Container
 	 */
 	protected function setUp()
 	{
-		$config = new Nette\Config\Configurator();
-		$config->setTempDirectory(TEMP_DIR);
-		Kdyby\Facebook\DI\FacebookExtension::register($config);
-		$config->addConfig(__DIR__ . '/files/config.neon', $config::NONE);
-		$config->addConfig(__DIR__ . '/files/nette-reset.neon', $config::NONE);
-
-		$dic = $config->createContainer();
-		/** @var \Nette\DI\Container|\SystemContainer $dic */
-		$this->config = $dic->getByType('Kdyby\Facebook\Configuration');
+		$this->createContainer();
 	}
 
 
@@ -90,4 +77,4 @@ class SignedRequestTest extends Tester\TestCase
 
 }
 
-\run(new SignedRequestTest());
+KdybyTests\run(new SignedRequestTest());

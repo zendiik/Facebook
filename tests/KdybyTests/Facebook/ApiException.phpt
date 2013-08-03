@@ -12,12 +12,12 @@ namespace KdybyTests\Facebook;
 
 use Kdyby;
 use Kdyby\Facebook\FacebookApiException;
+use KdybyTests;
 use Nette;
 use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/mock.php';
 
 
 
@@ -91,4 +91,4 @@ class ApiExceptionTest extends Tester\TestCase
 
 }
 
-\run(new ApiExceptionTest());
+KdybyTests\run(new ApiExceptionTest());

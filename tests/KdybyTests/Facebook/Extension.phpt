@@ -11,6 +11,7 @@
 namespace KdybyTests\Facebook;
 
 use Kdyby;
+use KdybyTests;
 use Nette;
 use Tester;
 use Tester\Assert;
@@ -49,4 +50,4 @@ class ExtensionTest extends Tester\TestCase
 
 }
 
-\run(new ExtensionTest());
+KdybyTests\run(new ExtensionTest());

@@ -12,72 +12,30 @@ namespace KdybyTests\Facebook;
 
 use Kdyby;
 use Kdyby\Facebook\FacebookApiException;
+use KdybyTests;
 use Nette;
 use Nette\Application\Routers\Route;
 use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/mock.php';
 
 
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class FacebookTest extends Tester\TestCase
+class FacebookTest extends KdybyTests\FacebookTestCase
 {
 	const TEST_USER = 499834690;
 	const TEST_USER_2 = 499835484;
 	const EXPIRED_ACCESS_TOKEN = 'AAABrFmeaJjgBAIshbq5ZBqZBICsmveZCZBi6O4w9HSTkFI73VMtmkL9jLuWsZBZC9QMHvJFtSulZAqonZBRIByzGooCZC8DWr0t1M4BL9FARdQwPWPnIqCiFQ';
 
-	/** @var \Nette\DI\Container */
-	private $container;
-
-	/** @var \Kdyby\Facebook\Facebook */
-	private $facebook;
-
-	/** @var \Kdyby\Facebook\Configuration */
-	private $config;
-
-	/** @var \Kdyby\Facebook\SessionStorage */
-	private $session;
-
-	/** @var \Kdyby\Facebook\ApiClient|\Kdyby\Facebook\Api\CurlClient */
-	private $apiClient;
 
 
-
-	/**
-	 * @return \SystemContainer|\Nette\DI\Container
-	 */
 	protected function setUp()
 	{
-		$config = new Nette\Config\Configurator();
-		$config->setTempDirectory(TEMP_DIR);
-		Kdyby\Facebook\DI\FacebookExtension::register($config);
-		$config->addConfig(__DIR__ . '/files/config.neon', $config::NONE);
-		$config->addConfig(__DIR__ . '/files/nette-reset.neon', $config::NONE);
-
-		$dic = $config->createContainer();
-		/** @var \Nette\DI\Container|\SystemContainer $dic */
-		$dic->addService('httpRequest', new Nette\Http\Request(
-			new Nette\Http\UrlScript('http://kdyby.org/'),
-			NULL, NULL, NULL, NULL, NULL, 'GET')
-		);
-
-		$session = $dic->getByType('Nette\Http\Session');
-		/** @var \Nette\Http\Session $session */
-		$session->isStarted() && $session->destroy();
-
-		$router = $dic->getService('router');
-		$router[] = new Route('unit-tests/<presenter>/<action>', 'Mock:default');
-
-		$this->facebook = $dic->getByType('Kdyby\Facebook\Facebook');
-		$this->config = $dic->getByType('Kdyby\Facebook\Configuration');
-		$this->session = $dic->getByType('Kdyby\Facebook\SessionStorage');
-		$this->apiClient = $dic->getByType('Kdyby\Facebook\ApiClient');
-		$this->container = $dic;
+		$this->createContainer();
 	}
 
 
@@ -926,53 +884,6 @@ class FacebookTest extends Tester\TestCase
 
 
 
-	private function createWithRequest($url = NULL, $post = NULL, $cookies = NULL, $headers = NULL, $method = 'GET')
-	{
-		$url = new Nette\Http\UrlScript($url ? : 'http://kdyby.org/');
-
-		foreach ((array) $cookies as $key => $val) {
-			$_COOKIE[$key] = $val;
-		}
-
-		$this->container->removeService('httpRequest');
-		$this->container->addService('httpRequest', new Nette\Http\Request($url, NULL, $post, NULL, $cookies, $headers, $method));
-
-		$router = $this->container->getService('router');
-		unset($router[0]);
-		$router[] = new Route('unit-tests/<presenter>/<action>', 'Mock:default', ($url->scheme === 'https' ? Route::SECURED : 0));
-
-		return new MockedFacebook(
-			$this->config,
-			$this->container->getByType('Kdyby\Facebook\SessionStorage'),
-			$this->container->getByType('Kdyby\Facebook\ApiClient'),
-			$this->container->getService('httpRequest'),
-			new Nette\Http\Response()
-		);
-	}
-
-
-
-	/**
-	 * @param Kdyby\Facebook\Dialog $component
-	 * @param string $name
-	 * @return Kdyby\Facebook\Dialog
-	 */
-	private function toPresenter(Kdyby\Facebook\Dialog $component, $name = 'facebook_dialog')
-	{
-		$presenter = $this->container->createInstance('KdybyTests\Facebook\PresenterMock');
-		/** @var \KdybyTests\Facebook\PresenterMock $presenter */
-		$this->container->callInjects($presenter);
-
-		$query = $this->container->getService('httpRequest')->getQuery();
-		$presenter->run(new Nette\Application\Request('Mock', 'GET', array('action' => 'default') + $query));
-
-		$presenter->addComponent($component, $name);
-
-		return $component;
-	}
-
-
-
 	private function kValidSignedRequest($id = self::TEST_USER, $oauth_token = NULL)
 	{
 		return Kdyby\Facebook\SignedRequest::encode(array(
@@ -983,4 +894,4 @@ class FacebookTest extends Tester\TestCase
 
 }
 
-\run(new FacebookTest());
+KdybyTests\run(new FacebookTest());

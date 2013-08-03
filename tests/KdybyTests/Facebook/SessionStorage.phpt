@@ -11,26 +11,20 @@
 namespace KdybyTests\Facebook;
 
 use Kdyby;
+use KdybyTests;
 use Nette;
 use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/mock.php';
 
 
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class SessionStorageTest extends Tester\TestCase
+class SessionStorageTest extends KdybyTests\FacebookTestCase
 {
-
-	/** @var \Kdyby\Facebook\Configuration */
-	private $config;
-
-	/** @var \Kdyby\Facebook\SessionStorage */
-	private $session;
 
 	/**
 	 * @var \Nette\Http\SessionSection
@@ -39,27 +33,11 @@ class SessionStorageTest extends Tester\TestCase
 
 
 
-	/**
-	 * @return \SystemContainer|\Nette\DI\Container
-	 */
 	protected function setUp()
 	{
-		$config = new Nette\Config\Configurator();
-		$config->setTempDirectory(TEMP_DIR);
-		Kdyby\Facebook\DI\FacebookExtension::register($config);
-		$config->addConfig(__DIR__ . '/files/config.neon', $config::NONE);
-		$config->addConfig(__DIR__ . '/files/nette-reset.neon', $config::NONE);
-
-		$dic = $config->createContainer();
-		/** @var \Nette\DI\Container|\SystemContainer $dic */
-
-		$session = $dic->getByType('Nette\Http\Session');
-		/** @var \Nette\Http\Session $session */
-		$session->isStarted() && $session->destroy();
-
-		$this->config = $dic->getByType('Kdyby\Facebook\Configuration');
-		$this->session = $dic->getByType('Kdyby\Facebook\SessionStorage');
-		$this->rawSection = $session->getSection('Facebook/' . $this->config->getApplicationAccessToken());
+		$this->createContainer();
+		$this->rawSection = $this->container->getByType('Nette\Http\Session')
+			->getSection('Facebook/' . $this->config->getApplicationAccessToken());
 	}
 
 
@@ -120,4 +98,4 @@ class SessionStorageTest extends Tester\TestCase
 
 }
 
-\run(new SessionStorageTest());
+KdybyTests\run(new SessionStorageTest());

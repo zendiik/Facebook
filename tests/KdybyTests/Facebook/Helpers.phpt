@@ -11,12 +11,12 @@
 namespace KdybyTests\Facebook;
 
 use Kdyby;
+use KdybyTests;
 use Nette;
 use Tester;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
-require_once __DIR__ . '/mock.php';
 
 
 
@@ -59,4 +59,4 @@ class HelpersTest extends Tester\TestCase
 
 }
 
-\run(new HelpersTest());
+KdybyTests\run(new HelpersTest());

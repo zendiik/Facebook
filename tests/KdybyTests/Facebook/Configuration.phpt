@@ -11,6 +11,7 @@
 namespace KdybyTests\Facebook;
 
 use Kdyby\Facebook\Configuration;
+use KdybyTests;
 use Tester\TestCase;
 use Tester\Assert;
 
@@ -37,4 +38,4 @@ class ConfigurationTest extends TestCase
 
 }
 
-\run(new ConfigurationTest());
+KdybyTests\run(new ConfigurationTest());

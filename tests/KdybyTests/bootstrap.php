@@ -8,6 +8,12 @@
  * For the full copyright and license information, please view the file license.md that was distributed with this source code.
  */
 
+namespace KdybyTests;
+
+use Kdyby;
+use Nette;
+use Tester;
+
 if (@!include __DIR__ . '/../../vendor/autoload.php') {
 	echo 'Install Nette Tester using `composer update --dev`';
 	exit(1);
@@ -44,9 +50,108 @@ function run(Tester\TestCase $testCase) {
 }
 
 
-define('APP_ID', '117743971608120');
-define('SECRET', '9c8ea2071859659bea1246d33a9207cf');
-define('MIGRATED_APP_ID', '174236045938435');
-define('MIGRATED_SECRET', '0073dce2d95c4a5c2922d1827ea0cca6');
-define('TEST_USER', 499834690);
-define('EXPIRED_ACCESS_TOKEN', 'AAABrFmeaJjgBAIshbq5ZBqZBICsmveZCZBi6O4w9HSTkFI73VMtmkL9jLuWsZBZC9QMHvJFtSulZAqonZBRIByzGooCZC8DWr0t1M4BL9FARdQwPWPnIqCiFQ');
+require_once __DIR__ . '/Facebook/mock.php';
+
+abstract class FacebookTestCase extends Tester\TestCase
+{
+
+
+	/** @var \Nette\DI\Container */
+	protected $container;
+
+	/** @var \Kdyby\Facebook\Facebook */
+	protected $facebook;
+
+	/** @var \Kdyby\Facebook\Configuration */
+	protected $config;
+
+	/** @var \Kdyby\Facebook\SessionStorage */
+	protected $session;
+
+	/** @var \Kdyby\Facebook\ApiClient|\Kdyby\Facebook\Api\CurlClient */
+	protected $apiClient;
+
+
+
+	/**
+	 * @param string $fbConfig
+	 * @return \SystemContainer|\Nette\DI\Container
+	 */
+	protected function createContainer($fbConfig = 'config.neon')
+	{
+		$config = new Nette\Config\Configurator();
+		$config->setTempDirectory(TEMP_DIR);
+		Kdyby\Facebook\DI\FacebookExtension::register($config);
+		$config->addConfig(__DIR__ . '/Facebook/files/' . $fbConfig, $config::NONE);
+		$config->addConfig(__DIR__ . '/nette-reset.neon', $config::NONE);
+
+		$dic = $config->createContainer();
+		/** @var \Nette\DI\Container|\SystemContainer $dic */
+		$dic->addService('httpRequest', new Nette\Http\Request(
+				new Nette\Http\UrlScript('http://kdyby.org/'),
+				NULL, NULL, NULL, NULL, NULL, 'GET')
+		);
+
+		$session = $dic->getByType('Nette\Http\Session');
+		/** @var \Nette\Http\Session $session */
+		$session->isStarted() && $session->destroy();
+
+		$router = $dic->getService('router');
+		$router[] = new Nette\Application\Routers\Route('unit-tests/<presenter>/<action>', 'Mock:default');
+
+		$this->facebook = $dic->getByType('Kdyby\Facebook\Facebook');
+		$this->config = $dic->getByType('Kdyby\Facebook\Configuration');
+		$this->session = $dic->getByType('Kdyby\Facebook\SessionStorage');
+		$this->apiClient = $dic->getByType('Kdyby\Facebook\ApiClient');
+		$this->container = $dic;
+	}
+
+
+
+	protected function createWithRequest($url = NULL, $post = NULL, $cookies = NULL, $headers = NULL, $method = 'GET')
+	{
+		$url = new Nette\Http\UrlScript($url ? : 'http://kdyby.org/');
+
+		foreach ((array) $cookies as $key => $val) {
+			$_COOKIE[$key] = $val;
+		}
+
+		$this->container->removeService('httpRequest');
+		$this->container->addService('httpRequest', new Nette\Http\Request($url, NULL, $post, NULL, $cookies, $headers, $method));
+
+		$router = $this->container->getService('router');
+		unset($router[0]);
+		$flags = $url->scheme === 'https' ? Nette\Application\Routers\Route::SECURED : 0;
+		$router[] = new Nette\Application\Routers\Route('unit-tests/<presenter>/<action>', 'Mock:default', $flags);
+
+		return new Facebook\MockedFacebook(
+			$this->config,
+			$this->container->getByType('Kdyby\Facebook\SessionStorage'),
+			$this->container->getByType('Kdyby\Facebook\ApiClient'),
+			$this->container->getService('httpRequest'),
+			new Nette\Http\Response()
+		);
+	}
+
+
+
+	/**
+	 * @param Kdyby\Facebook\Dialog $component
+	 * @param string $name
+	 * @return Kdyby\Facebook\Dialog
+	 */
+	protected function toPresenter(Kdyby\Facebook\Dialog $component, $name = 'facebook_dialog')
+	{
+		$presenter = $this->container->createInstance('KdybyTests\Facebook\PresenterMock');
+		/** @var \KdybyTests\Facebook\PresenterMock $presenter */
+		$this->container->callInjects($presenter);
+
+		$query = $this->container->getService('httpRequest')->getQuery();
+		$presenter->run(new Nette\Application\Request('Mock', 'GET', array('action' => 'default') + $query));
+
+		$presenter->addComponent($component, $name);
+
+		return $component;
+	}
+
+}
