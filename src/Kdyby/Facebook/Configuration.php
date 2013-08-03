@@ -292,11 +292,18 @@ class Configuration extends Nette\Object
 	 */
 	public function createUrl($name, $path = NULL, $params = array())
 	{
-		$url = new UrlScript($this->domains[$name]);
-		$url->setPath('/' . ltrim($path, '/'));
+		if (preg_match('~^https?://[^.]+\\.facebook\\.com/~', trim($path))) {
+			$url = new UrlScript($path);
+
+		} else {
+			$url = new UrlScript($this->domains[$name]);
+			$url->setPath('/' . ltrim($path, '/'));
+		}
+
 		$url->appendQuery(array_map(function ($param) {
 			return $param instanceof UrlScript ? (string)$param : $param;
 		}, $params));
+
 		return $url;
 	}
 

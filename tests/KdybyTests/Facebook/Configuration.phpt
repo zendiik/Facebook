@@ -25,15 +25,43 @@ require_once __DIR__ . '/../bootstrap.php';
 class ConfigurationTest extends TestCase
 {
 
-	public function testFunctionality()
-	{
-		$config = new Configuration('123456', '*something-really-secret*');
+	/**
+	 * @var Configuration
+	 */
+	private $config;
 
-		Assert::equal('fbsr_123456', $config->getSignedRequestCookieName());
-		Assert::equal('fbm_123456', $config->getMetadataCookieName());
-		Assert::equal('123456|*something-really-secret*', $config->getApplicationAccessToken());
-		Assert::equal('https://api.facebook.com/me?feed=me', (string) $config->createUrl('api', 'me', array('feed' => 'me')));
-		Assert::equal('https://api.facebook.com/restserver.php', (string) $config->getApiUrl('api'));
+
+
+	protected function setUp()
+	{
+		$this->config = new Configuration('123456', '*something-really-secret*');
+	}
+
+
+
+	public function testReadingConfiguration()
+	{
+		Assert::equal('fbsr_123456', $this->config->getSignedRequestCookieName());
+		Assert::equal('fbm_123456', $this->config->getMetadataCookieName());
+		Assert::equal('123456|*something-really-secret*', $this->config->getApplicationAccessToken());
+	}
+
+
+
+	public function testCreateUrl()
+	{
+		Assert::equal('https://api.facebook.com/me?feed=me', (string) $this->config->createUrl('api', 'me', array('feed' => 'me')));
+		Assert::equal('https://api.facebook.com/restserver.php', (string) $this->config->getApiUrl('api'));
+	}
+
+
+
+	public function testPassingEntireGraphUrl()
+	{
+		Assert::equal(
+			'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE=',
+			(string) $this->config->createUrl('graph', 'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE=')
+		);
 	}
 
 }
