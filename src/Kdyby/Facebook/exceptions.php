@@ -61,7 +61,7 @@ class FacebookApiException extends \Exception implements Exception
 			$msg = 'Unknown Error. Check getResult()';
 		}
 
-		parent::__construct($msg, $code);
+		parent::__construct($msg, (int) $code);
 	}
 
 
@@ -110,7 +110,7 @@ class FacebookApiException extends \Exception implements Exception
 	public function __toString()
 	{
 		$str = $this->getType() . ': ';
-		if ($this->code != 0) {
+		if ($this->code > 0) {
 			$str .= $this->code . ': ';
 		}
 		return $str . $this->message;

@@ -319,7 +319,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 
 		} catch (FacebookApiException $e) {
 			// means the server got the access token and didn't like it
-			Assert::same('OAuthException: Invalid OAuth access token.', (string) $e);
+			Assert::same('OAuthException: 190: Invalid OAuth access token.', (string) $e);
 		}
 	}
 
@@ -336,7 +336,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 
 		} catch (FacebookApiException $e) {
 			// means the server got the access token and didn't like it
-			Assert::match('OAuthException: Error validating access token: %a%', (string) $e);
+			Assert::match('OAuthException: 190: Error validating access token: %a%', (string) $e);
 		}
 	}
 
