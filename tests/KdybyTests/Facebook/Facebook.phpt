@@ -631,8 +631,8 @@ class FacebookTest extends Tester\TestCase
 		Assert::notEqual(41572, $facebook->getUser());
 		Assert::equal(499834690, $facebook->getUser());
 
-		Assert::true(!empty($facebook->getAccessToken()));
-		Assert::notEqual(self::EXPIRED_ACCESS_TOKEN, $facebook->getAccessToken());
+		Assert::notEqual(self::EXPIRED_ACCESS_TOKEN, $accessToken = $facebook->getAccessToken());
+		Assert::true(!empty($accessToken));
 	}
 
 
@@ -640,7 +640,9 @@ class FacebookTest extends Tester\TestCase
 	public function testGetUserWithoutCodeOrSignedRequestOrSession()
 	{
 		$facebook = $this->createWithRequest();
-		Assert::true(empty($facebook->getUser()));
+
+		$userId = $facebook->getUser();
+		Assert::true(empty($userId));
 	}
 
 
