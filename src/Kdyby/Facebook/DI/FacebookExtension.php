@@ -43,6 +43,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'clearAllWithLogout' => TRUE,
 		'domains' => array(),
 		'permissions' => array(),
+		'canvasBaseUrl' => NULL,
 	);
 
 
@@ -59,6 +60,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		Validators::assert($config['clearAllWithLogout'], 'bool', 'clear the facebook session when user changes');
 		Validators::assert($config['domains'], 'array', 'api domains');
 		Validators::assert($config['permissions'], 'list', 'permissions scope');
+		Validators::assert($config['canvasBaseUrl'], 'null|url', 'base url for canvas application');
 
 		$configurator = $builder->addDefinition($this->prefix('config'))
 			->setClass('Kdyby\Facebook\Configuration')
@@ -66,6 +68,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->addSetup('$fileUploadSupport', array($config['fileUploadSupport']))
 			->addSetup('$trustForwarded', array($config['trustForwarded']))
 			->addSetup('$permissions', array($config['permissions']))
+			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']))
 			->setInject(FALSE);
 
 		if ($config['domains']) {

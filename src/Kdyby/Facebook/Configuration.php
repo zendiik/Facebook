@@ -131,6 +131,12 @@ class Configuration extends Nette\Object
 	public $permissions;
 
 	/**
+	 * The base url of canvas application.
+	 * @var string
+	 */
+	public $canvasBaseUrl;
+
+	/**
 	 * Maps aliases to Facebook domains.
 	 * @var array
 	 */
