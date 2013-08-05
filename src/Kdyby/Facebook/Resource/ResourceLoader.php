@@ -13,6 +13,7 @@ namespace Kdyby\Facebook\Resource;
 use IteratorAggregate;
 use Kdyby\Facebook\Facebook;
 use Nette\ArrayHash;
+use Nette\Http\UrlScript;
 use Nette\Object;
 use Nette\Utils\Strings;
 use Traversable;
@@ -152,6 +153,8 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	private function constructInitialPath()
 	{
+		$url = new UrlScript("/" . $this->resourcePath);
+
 		$query = array();
 		if ($this->fields) {
 			$query["fields"] = implode(",", $this->fields);
@@ -159,8 +162,9 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 		if ($this->limit !== NULL) {
 			$query["limit"] = $this->limit;
 		}
+		$url->setQuery($query);
 
-		return "/" . $this->resourcePath . ($query ? "?" . http_build_query($query) : "");
+		return $url;
 	}
 
 
