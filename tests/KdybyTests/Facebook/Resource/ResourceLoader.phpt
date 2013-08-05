@@ -17,7 +17,6 @@ use KdybyTests;
 use Nette\ArrayHash;
 use Tester\Assert;
 
-require_once __DIR__ . '/../../bootstrap.php';
 require_once __DIR__ . '/ResourceTestCase.php';
 
 /**

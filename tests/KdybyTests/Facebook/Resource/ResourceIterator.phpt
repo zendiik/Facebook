@@ -14,7 +14,6 @@ use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
 use Tester\Assert;
 
-require_once __DIR__ . '/../../bootstrap.php';
 require_once __DIR__ . '/ResourceTestCase.php';
 
 /**
@@ -49,7 +48,7 @@ class ResourceIteratorTest extends ResourceTestCase
 		$iterator = $this->iterator;
 
 		$i = 0;
-		while ($i < self::TEST_USER_POST_COUNT) {
+		while ($i < $this->user->postCount) {
 			Assert::true($iterator->valid());
 			$iterator->next();
 			$i++;
