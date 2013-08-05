@@ -32,19 +32,19 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	private $facebook;
 
 	/**
-	 * @var string
+	 * @var string|array
 	 */
-	private $resourcePath;
+	private $pathOrParams;
 
 	/**
-	 * @var string[]
+	 * @var string|NULL
 	 */
-	private $fields = array();
+	private $method = NULL;
 
 	/**
-	 * @var int|NULL
+	 * @var array
 	 */
-	private $limit = NULL;
+	private $params = array();
 
 	/**
 	 * @var \Nette\ArrayHash|NULL
@@ -57,12 +57,16 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 * Creates new list of Facebook objects.
 	 *
 	 * @param \Kdyby\Facebook\Facebook $facebook
-	 * @param string $resourcePath
+	 * @param string|array $pathOrParams
+	 * @param string|NULL $method
+	 * @param array $params
 	 */
-	public function __construct(Facebook $facebook, $resourcePath)
+	public function __construct(Facebook $facebook, $pathOrParams, $method = NULL, array $params = array())
 	{
 		$this->facebook = $facebook;
-		$this->resourcePath = $resourcePath;
+		$this->pathOrParams = $pathOrParams;
+		$this->method = $method;
+		$this->params = $params;
 	}
 
 
@@ -75,7 +79,13 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function setFields(array $fields = array())
 	{
-		$this->fields = $fields;
+		if (empty($this->params["fields"])) {
+			$this->params["fields"] = array();
+		}
+		$this->params["fields"] = $fields;
+		if (empty($this->params["fields"])) {
+			unset($this->params["fields"]);
+		}
 
 		return $this;
 	}
@@ -90,8 +100,11 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function addField($field)
 	{
-		if (!in_array($field, $this->fields)) {
-			$this->fields[] = $field;
+		if (empty($this->params["fields"])) {
+			$this->params["fields"] = array();
+		}
+		if (!in_array($field, $this->params["fields"])) {
+			$this->params["fields"][] = $field;
 		}
 
 		return $this;
@@ -104,7 +117,11 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function getFields()
 	{
-		return $this->fields;
+		if (empty($this->params["fields"])) {
+			$this->params["fields"] = array();
+		}
+
+		return $this->params["fields"];
 	}
 
 
@@ -115,7 +132,11 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function setLimit($limit = NULL)
 	{
-		$this->limit = is_numeric($limit) && $limit > 0 ? intval(round($limit)) : NULL;
+		if (is_numeric($limit) && $limit > 0) {
+			$this->params["limit"] = intval(round($limit));
+		} elseif (!empty($this->params["limit"])) {
+			unset($this->params["limit"]);
+		}
 
 		return $this;
 	}
@@ -127,7 +148,7 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function getLimit()
 	{
-		return $this->limit;
+		return !empty($this->params["limit"]) ? $this->params["limit"] : NULL;
 	}
 
 
@@ -138,33 +159,10 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	private function load()
 	{
 		if ($this->lastResult === NULL) {
-			$this->lastResult = $this->facebook->api($this->constructInitialPath());
+			$this->lastResult = $this->facebook->api($this->pathOrParams, $this->method, $this->params);
 		} elseif ($this->hasNextPage()) {
 			$this->lastResult = $this->facebook->api($this->getNextPath());
 		}
-	}
-
-
-
-	/**
-	 * Constructs initial path to the resource.
-	 *
-	 * @return string
-	 */
-	private function constructInitialPath()
-	{
-		$url = new UrlScript("/" . $this->resourcePath);
-
-		$query = array();
-		if ($this->fields) {
-			$query["fields"] = implode(",", $this->fields);
-		}
-		if ($this->limit !== NULL) {
-			$query["limit"] = $this->limit;
-		}
-		$url->setQuery($query);
-
-		return $url;
 	}
 
 
