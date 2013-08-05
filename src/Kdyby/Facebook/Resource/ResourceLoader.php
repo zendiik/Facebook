@@ -25,8 +25,6 @@ use Traversable;
 class ResourceLoader extends Object implements IteratorAggregate, IResourceLoader
 {
 
-	const GRAPH_BASE_URI_PATTERN = "https?\:\/\/graph\.facebook\.com";
-
 	/**
 	 * @var \Kdyby\Facebook\Facebook
 	 */
@@ -141,7 +139,7 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 		if ($this->lastResult === NULL) {
 			$this->lastResult = $this->facebook->api($this->constructInitialPath());
 		} elseif ($this->hasNextPage()) {
-			$this->lastResult = $this->facebook->api($this->constructNextPath());
+			$this->lastResult = $this->facebook->api($this->getNextPath());
 		}
 	}
 
@@ -174,7 +172,7 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	private function hasNextPage()
 	{
-		return isset($this->lastResult->paging) && isset($this->lastResult->paging->next);
+		return !empty($this->lastResult->paging->next);
 	}
 
 
@@ -184,22 +182,9 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 *
 	 * @return string
 	 */
-	private function constructNextPath()
+	private function getNextPath()
 	{
-		return static::removeBaseUri($this->lastResult->paging->next);
-	}
-
-
-
-	/**
-	 * Removes base URI from given absolute path.
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	private static function removeBaseUri($path)
-	{
-		return Strings::replace($path, '~' . self::GRAPH_BASE_URI_PATTERN . '~ui');
+		return $this->lastResult->paging->next;
 	}
 
 
@@ -233,12 +218,10 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 
 
 	/**
-	 * (PHP 5 &gt;= 5.0.0)<br/>
-	 * Retrieve an external iterator
+	 * Retrieve an external iterator.
 	 *
 	 * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
-	 * @return Traversable An instance of an object implementing <b>Iterator</b> or
-	 * <b>Traversable</b>
+	 * @return Traversable An instance of an object implementing <b>Iterator</b> or <b>Traversable</b>
 	 */
 	public function getIterator()
 	{
