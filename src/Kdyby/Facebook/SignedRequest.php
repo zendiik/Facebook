@@ -87,7 +87,7 @@ class SignedRequest extends Nette\Object
 			return Nette\Diagnostics\Dumper::toText($struct);
 		}
 
-		return Nette\Diagnostics\Helpers::textDump($struct);
+		return print_r($struct, TRUE);
 	}
 
 }
