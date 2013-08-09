@@ -16,7 +16,7 @@
 		}
 	],
 	"require": {
-		"nette/nette": "@dev",
+		"nette/nette": "~2.0",
 		"ext-curl": "*",
 		"ext-json": "*"
 	},
