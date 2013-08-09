@@ -68,33 +68,28 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->addSetup('$fileUploadSupport', array($config['fileUploadSupport']))
 			->addSetup('$trustForwarded', array($config['trustForwarded']))
 			->addSetup('$permissions', array($config['permissions']))
-			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']))
-			->setInject(FALSE);
+			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']));
 
 		if ($config['domains']) {
 			$configurator->addSetup('$service->domains = ? + $service->domains', array($config['domains']));
 		}
 
 		$builder->addDefinition($this->prefix('session'))
-			->setClass('Kdyby\Facebook\SessionStorage')
-			->setInject(FALSE);
+			->setClass('Kdyby\Facebook\SessionStorage');
 
 		$apiClient = $builder->addDefinition($this->prefix('apiClient'))
 			->setFactory('Kdyby\Facebook\Api\CurlClient')
-			->setClass('Kdyby\Facebook\ApiClient')
-			->setInject(FALSE);
+			->setClass('Kdyby\Facebook\ApiClient');
 
 		if ($builder->parameters['debugMode']) {
 			$builder->addDefinition($this->prefix('panel'))
-				->setClass('Kdyby\Facebook\Diagnostics\Panel')
-				->setInject(FALSE);
+				->setClass('Kdyby\Facebook\Diagnostics\Panel');
 
 			$apiClient->addSetup($this->prefix('@panel') . '::register', array('@self'));
 		}
 
 		$builder->addDefinition($this->prefix('client'))
-			->setClass('Kdyby\Facebook\Facebook')
-			->setInject(FALSE);
+			->setClass('Kdyby\Facebook\Facebook');
 
 		if ($config['clearAllWithLogout']) {
 			$builder->getDefinition('user')
