@@ -144,7 +144,12 @@ abstract class FacebookTestCase extends Tester\TestCase
 	{
 		$presenter = $this->container->createInstance('KdybyTests\Facebook\PresenterMock');
 		/** @var \KdybyTests\Facebook\PresenterMock $presenter */
-		$this->container->callInjects($presenter);
+
+		foreach (array_reverse(get_class_methods($presenter)) as $method) {
+			if (substr($method, 0, 6) === 'inject') {
+				$this->container->callMethod(array($presenter, $method));
+			}
+		}
 
 		$query = $this->container->getService('httpRequest')->getQuery();
 		$presenter->run(new Nette\Application\Request('Mock', 'GET', array('action' => 'default') + $query));
