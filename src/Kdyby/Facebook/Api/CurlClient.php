@@ -181,7 +181,11 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		$params = array_map(function ($value) {
 			if ($value instanceof UrlScript) {
 				return (string)$value;
+
+			} elseif ($value instanceof \CURLFile) {
+				return $value;
 			}
+
 			return !is_string($value) ? Json::encode($value) : $value;
 		}, $params);
 
