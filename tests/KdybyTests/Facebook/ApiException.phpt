@@ -36,6 +36,14 @@ class ApiExceptionTest extends Tester\TestCase
 
 
 
+	public function testExceptionConstructorWithInvalidErrorCode()
+	{
+		$e = new FacebookApiException(array('error_code' => 'not an int'));
+		Assert::same(0, $e->getCode());
+	}
+
+
+
 	/**
 	 * this happens often despite the fact that it is useless
 	 */
