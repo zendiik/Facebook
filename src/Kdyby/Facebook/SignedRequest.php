@@ -45,7 +45,17 @@ class SignedRequest extends Nette\Object
 
 		// check sig
 		$expected_sig = hash_hmac('sha256', $payload, $appSecret, $raw = TRUE);
-		if ($sig !== $expected_sig) {
+		if (strlen($expected_sig) !== strlen($sig)) {
+			Debugger::log('Bad Signed JSON signature! Expected ' . self::dump($expected_sig) . ', but given ' . self::dump($sig), 'facebook');
+			return NULL;
+		}
+
+		$result = 0;
+		for ($i = 0; $i < strlen($expected_sig); $i++) {
+			$result |= ord($expected_sig[$i]) ^ ord($sig[$i]);
+		}
+
+		if ($result !== 0) {
 			Debugger::log('Bad Signed JSON signature! Expected ' . self::dump($expected_sig) . ', but given ' . self::dump($sig), 'facebook');
 			return NULL;
 		}
