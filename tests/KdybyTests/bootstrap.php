@@ -79,7 +79,7 @@ abstract class FacebookTestCase extends Tester\TestCase
 	 */
 	protected function createContainer($fbConfig = 'config.neon')
 	{
-		$config = new Nette\Config\Configurator();
+		$config = new Nette\Configurator();
 		$config->setTempDirectory(TEMP_DIR);
 		Kdyby\Facebook\DI\FacebookExtension::register($config);
 		$config->addConfig(__DIR__ . '/Facebook/files/' . $fbConfig, $config::NONE);
