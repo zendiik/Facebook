@@ -135,7 +135,7 @@ class LoginPresenter extends BasePresenter
 				 * when the user is not logged in to your website,
 				 * with the access token in his session.
 				 */
-				$this->userModel->updateFacebookAccessToken($fb->getUser(), $fb->getAccessToken());
+				$this->usersModel->updateFacebookAccessToken($fb->getUser(), $fb->getAccessToken());
 
 				/**
 				 * Nette\Security\User accepts not only textual credentials,
