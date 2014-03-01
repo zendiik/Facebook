@@ -90,7 +90,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 
 		foreach ($config['curlOptions'] as $option => $value) {
 			if (defined($option)) {
-				unset($config['curlOptions']);
+				unset($config['curlOptions'][$option]);
 				$config['curlOptions'][constant($option)] = $value;
 			}
 		}
