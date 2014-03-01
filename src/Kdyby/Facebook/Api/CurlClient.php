@@ -37,7 +37,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 * Default options for curl.
 	 * @var array
 	 */
-	public $curlOptions = array(
+	public static $defaultCurlOptions = array(
 		CURLOPT_CONNECTTIMEOUT => 10,
 		CURLOPT_RETURNTRANSFER => TRUE,
 		CURLOPT_TIMEOUT => 20,
@@ -45,6 +45,12 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		CURLOPT_HTTPHEADER => array(),
 		CURLINFO_HEADER_OUT => TRUE
 	);
+
+	/**
+	 * Options for curl.
+	 * @var array
+	 */
+	public $curlOptions = array();
 
 	/**
 	 * @var array of function($url, $params)
@@ -70,6 +76,13 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 * @var array
 	 */
 	private $cache = array();
+
+
+
+	public function __construct()
+	{
+		$this->curlOptions = self::$defaultCurlOptions;
+	}
 
 
 

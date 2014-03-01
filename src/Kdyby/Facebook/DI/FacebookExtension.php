@@ -10,6 +10,7 @@
 
 namespace Kdyby\Facebook\DI;
 
+use Kdyby\Facebook\Api\CurlClient;
 use Nette;
 use Nette\Utils\Validators;
 
@@ -44,7 +45,15 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'domains' => array(),
 		'permissions' => array(),
 		'canvasBaseUrl' => NULL,
+		'curlOptions' => array(),
 	);
+
+
+
+	public function __construct()
+	{
+		$this->defaults['curlOptions'] = CurlClient::$defaultCurlOptions;
+	}
 
 
 
@@ -77,9 +86,17 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		$builder->addDefinition($this->prefix('session'))
 			->setClass('Kdyby\Facebook\SessionStorage');
 
+		foreach ($config['curlOptions'] as $option => $value) {
+			if (defined($option)) {
+				unset($config['curlOptions']);
+				$config['curlOptions'][constant($option)] = $value;
+			}
+		}
+
 		$apiClient = $builder->addDefinition($this->prefix('apiClient'))
 			->setFactory('Kdyby\Facebook\Api\CurlClient')
-			->setClass('Kdyby\Facebook\ApiClient');
+			->setClass('Kdyby\Facebook\ApiClient')
+			->addSetup('$service->curlOptions = ?;', array($config['curlOptions']));
 
 		if ($builder->parameters['debugMode']) {
 			$builder->addDefinition($this->prefix('panel'))
