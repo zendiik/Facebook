@@ -13,11 +13,26 @@ namespace Kdyby\Facebook\Diagnostics;
 use Kdyby\Facebook;
 use Kdyby\Facebook\Api\CurlClient;
 use Nette;
-use Nette\Diagnostics\Debugger;
 use Nette\Utils\Html;
-use Nette\Utils\Json;
+use Tracy\Debugger;
+use Tracy\IBarPanel;
 
 
+
+if (!class_exists('Tracy\Debugger')) {
+	class_alias('Nette\Diagnostics\Debugger', 'Tracy\Debugger');
+}
+
+if (!class_exists('Tracy\Bar')) {
+	class_alias('Nette\Diagnostics\Bar', 'Tracy\Bar');
+	class_alias('Nette\Diagnostics\BlueScreen', 'Tracy\BlueScreen');
+	class_alias('Nette\Diagnostics\Helpers', 'Tracy\Helpers');
+	class_alias('Nette\Diagnostics\IBarPanel', 'Tracy\IBarPanel');
+}
+
+if (!class_exists('Tracy\Dumper')) {
+	class_alias('Nette\Diagnostics\Dumper', 'Tracy\Dumper');
+}
 
 /**
  * @author Filip Procházka <filip@prochazka.su>
@@ -26,7 +41,7 @@ use Nette\Utils\Json;
  * @property callable $failure
  * @property callable $success
  */
-class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
+class Panel extends Nette\Object implements IBarPanel
 {
 
 	/**
@@ -76,9 +91,9 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 
 		ob_start();
 		$esc = callback('Nette\Templating\Helpers::escapeHtml');
-		$click = class_exists('Nette\Diagnostics\Dumper')
-			? function ($o, $c = FALSE) { return Nette\Diagnostics\Dumper::toHtml($o, array('collapse' => $c)); }
-			: callback('Nette\Diagnostics\Helpers::clickableDump');
+		$click = class_exists('\Tracy\Dumper')
+			? function ($o, $c = FALSE) { return \Tracy\Dumper::toHtml($o, array('collapse' => $c)); }
+			: callback('\Tracy\Helpers::clickableDump');
 		$totalTime = $this->totalTime ? sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : 'none';
 
 		require_once __DIR__ . '/panel.phtml';
@@ -159,8 +174,17 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 		$client->onError[] = $this->failure;
 		$client->onSuccess[] = $this->success;
 
-		Debugger::$bar->addPanel($this);
+		self::getDebuggerBar()->addPanel($this);
 	}
 
+
+
+	/**
+	 * @return \Tracy\Bar
+	 */
+	private static function getDebuggerBar()
+	{
+		return method_exists('Tracy\Debugger', 'getBar') ? Debugger::getBar() : Debugger::$bar;
+	}
 
 }
