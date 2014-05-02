@@ -81,7 +81,7 @@ class Panel extends Nette\Object implements Nette\Diagnostics\IBarPanel
 			: callback('Nette\Diagnostics\Helpers::clickableDump');
 		$totalTime = $this->totalTime ? sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : 'none';
 
-		require_once __DIR__ . '/panel.phtml';
+		require __DIR__ . '/panel.phtml';
 		return ob_get_clean();
 	}
 
