@@ -12,10 +12,13 @@ namespace Kdyby\Facebook;
 
 use Kdyby\Facebook\Api\CurlClient;
 use Nette;
-use Nette\Diagnostics\Debugger;
-use Nette\Utils\Strings;
+use Nette\Utils\ArrayHash;
 
 
+
+if (!class_exists('Nette\Utils\ArrayHash')) {
+	class_alias('Nette\ArrayHash', 'Nette\Utils\ArrayHash');
+}
 
 /**
  * Provides access to the Facebook Platform.  This class provides
@@ -163,7 +166,7 @@ class Facebook extends Nette\Object
 	 * @param string $method
 	 * @param array $params
 	 * @throws \Kdyby\Facebook\FacebookApiException
-	 * @return \Nette\ArrayHash|bool|NULL The decoded response
+	 * @return ArrayHash|bool|NULL The decoded response
 	 */
 	public function api($pathOrParams, $method = NULL, array $params = array())
 	{
@@ -174,7 +177,7 @@ class Facebook extends Nette\Object
 			$response = $this->apiClient->graph($pathOrParams, $method, $params);
 		}
 
-		return !is_scalar($response) ? Nette\ArrayHash::from($response) : $response;
+		return !is_scalar($response) ? ArrayHash::from($response) : $response;
 	}
 
 

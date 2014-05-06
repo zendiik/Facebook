@@ -12,10 +12,15 @@ namespace KdybyTests\Facebook\Resource;
 
 use Iterator;
 use Kdyby\Facebook\Resource\ResourceIterator;
-use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
-use Nette\ArrayHash;
+use Nette\Utils\ArrayHash;
 use Tester\Assert;
+
+
+
+if (!class_exists('Nette\Utils\ArrayHash')) {
+	class_alias('Nette\ArrayHash', 'Nette\Utils\ArrayHash');
+}
 
 require_once __DIR__ . '/ResourceTestCase.php';
 
