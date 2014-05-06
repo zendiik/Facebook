@@ -46,6 +46,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'permissions' => array(),
 		'canvasBaseUrl' => NULL,
 		'curlOptions' => array(),
+		'debugger' => '%debugMode%',
 	);
 
 
@@ -98,7 +99,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->setClass('Kdyby\Facebook\ApiClient')
 			->addSetup('$service->curlOptions = ?;', array($config['curlOptions']));
 
-		if ($builder->parameters['debugMode']) {
+		if ($config['debugger']) {
 			$builder->addDefinition($this->prefix('panel'))
 				->setClass('Kdyby\Facebook\Diagnostics\Panel');
 
