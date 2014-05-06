@@ -18,11 +18,11 @@ use Tester\Assert;
 
 
 
+require_once __DIR__ . '/ResourceTestCase.php';
+
 if (!class_exists('Nette\Utils\ArrayHash')) {
 	class_alias('Nette\ArrayHash', 'Nette\Utils\ArrayHash');
 }
-
-require_once __DIR__ . '/ResourceTestCase.php';
 
 /**
  * @author Martin Štekl <martin.stekl@gmail.com>
