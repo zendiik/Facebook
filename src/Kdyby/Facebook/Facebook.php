@@ -57,12 +57,12 @@ class Facebook extends Nette\Object
 	protected $apiClient;
 
 	/**
-	 * @var \Nette\Http\Response
+	 * @var \Nette\Http\IResponse
 	 */
 	protected $httpResponse;
 
 	/**
-	 * @var \Nette\Http\Request
+	 * @var \Nette\Http\IRequest
 	 */
 	protected $httpRequest;
 
@@ -109,7 +109,7 @@ class Facebook extends Nette\Object
 	 */
 	public function __construct(
 		Configuration $config, SessionStorage $session, ApiClient $client,
-		Nette\Http\Request $httpRequest, Nette\Http\Response $httpResponse)
+		Nette\Http\IRequest $httpRequest, Nette\Http\IResponse $httpResponse)
 	{
 		$this->config = $config;
 		$this->httpResponse = $httpResponse;
@@ -570,7 +570,7 @@ class Facebook extends Nette\Object
 	 */
 	public function getCurrentUrl()
 	{
-		$url = clone $this->httpRequest->url;
+		$url = clone $this->httpRequest->getUrl();
 		if ($this->config->trustForwarded && isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			$url->setHost($_SERVER['HTTP_X_FORWARDED_HOST']);
 		}
@@ -600,7 +600,7 @@ class Facebook extends Nette\Object
 
 		// Javascript sets a cookie that will be used in getSignedRequest that we need to clear if we can
 		$cookieName = $this->config->getSignedRequestCookieName();
-		if (array_key_exists($cookieName, $this->httpRequest->cookies)) {
+		if (array_key_exists($cookieName, $this->httpRequest->getCookies())) {
 			$this->httpResponse->deleteCookie($cookieName, '/', $this->getBaseDomain());
 			unset($_COOKIE[$cookieName]);
 		}
