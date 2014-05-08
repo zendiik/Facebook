@@ -241,6 +241,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 		// provide certificate if needed
 		if (curl_errno($ch) == CURLE_SSL_CACERT || curl_errno($ch) === CURLE_SSL_CACERT_BADFILE) {
 			Debugger::log('Invalid or no certificate authority found, using bundled information', 'facebook');
+			$this->curlOptions[CURLOPT_CAINFO] = __DIR__ . DIRECTORY_SEPARATOR . 'fb_ca_chain_bundle.crt';
 			curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . DIRECTORY_SEPARATOR . 'fb_ca_chain_bundle.crt');
 			$result = curl_exec($ch);
 		}
