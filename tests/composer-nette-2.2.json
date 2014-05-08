@@ -39,6 +39,7 @@
 		"latte/latte": "~2.2@rc",
 		"tracy/tracy": "~2.2@rc",
 
+		"kdyby/curl-ca-bundle": "~1.0",
 		"ext-curl": "*",
 		"ext-json": "*"
 	},
