@@ -15,17 +15,19 @@ Installation
 The best way to install Kdyby/Facebook is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require kdyby/facebook:@dev
+$ composer require kdyby/facebook:~1.1
 ```
 
-With dev Nette, you can enable the extension using your neon config.
+For Nette `2.1` and newer is `~1.1`, for Nette `2.0` is `0.9.*`
+
+With Nette `2.1` and newer, you can enable the extension using your neon config.
 
 ```yml
 extensions:
 	facebook: Kdyby\Facebook\DI\FacebookExtension
 ```
 
-If you're using stable Nette, you have to register it in `app/bootstrap.php`
+If you're using older Nette, you might have to register it in `app/bootstrap.php`
 
 ```php
 Kdyby\Facebook\DI\FacebookExtension::register($configurator);
