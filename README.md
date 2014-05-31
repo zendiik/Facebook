@@ -7,6 +7,8 @@ Kdyby/Facebook
 
 Facebook PHP SDK with authorization for Nette Framework
 
+Facebook PHP SDK with authorization for Nette Framework
+
 
 Requirements
 ------------
