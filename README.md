@@ -26,10 +26,10 @@ For Nette `2.1` and newer is `~1.1`, for Nette `2.0` is `0.9.*`
 Documentation
 ------------
 
-Lear how to authenticate the user using facebook oauth or call facebook's graph api in [documentation](https://github.com/Kdyby/Facebook/blob/master/docs/en/index.md).
+Lear how to authenticate the user using Facebook oauth or call Facebook's graph api in [documentation](https://github.com/Kdyby/Facebook/blob/master/docs/en/index.md).
 
 
 
 -----
 
-Homepage [http://www.kdyby.org](http://www.kdyby.org) and repository [http://github.com/kdyby/facebook](http://github.com/kdyby/facebook).
+Homepage [http://www.kdyby.org](http://www.kdyby.org) and repository [http://github.com/Kdyby/Facebook](http://github.com/Kdyby/Facebook).
