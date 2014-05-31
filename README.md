@@ -3,7 +3,7 @@ Kdyby/Facebook
 
 [![Build Status](https://travis-ci.org/Kdyby/Facebook.svg?branch=master)](https://travis-ci.org/Kdyby/Facebook)
 [![Downloads this Month](https://img.shields.io/packagist/dm/Kdyby/Facebook.svg)](https://packagist.org/packages/Kdyby/Facebook)
-[![Latest stable](img.shields.io/packagist/v/Kdyby/Facebook.svg)](https://packagist.org/packages/Kdyby/Facebook)
+[![Latest stable](https://img.shields.io/packagist/v/Kdyby/Facebook.svg)](https://packagist.org/packages/Kdyby/Facebook)
 
 Facebook PHP SDK with authorization for Nette Framework
 
