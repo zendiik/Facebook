@@ -52,6 +52,15 @@ And that's all.
 
 
 
+Debugging
+---------
+
+The extension monitors all the api communication, when in debug mode. All that information is available in Tracy panel
+
+![panel](https://raw.githubusercontent.com/Kdyby/Facebook/6e06d943669637f06f6ced721683201d0921c7ae/docs/en/panel-screenshot.png)
+
+
+
 Calling Facebook API
 --------------------
 
