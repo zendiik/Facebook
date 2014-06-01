@@ -17,13 +17,19 @@
 		}
 	],
 	"require": {
-		"nette/nette": "~2.1@dev",
+		"nette/application": "~2.2@dev",
+		"nette/di": "~2.2@dev",
+		"nette/http": "~2.2@dev",
 
 		"kdyby/curl-ca-bundle": "~1.0",
 		"ext-curl": "*",
 		"ext-json": "*"
 	},
 	"require-dev": {
+		"nette/nette": "~2.2@dev",
+		"nette/bootstrap": "~2.2@dev",
+		"nette/neon": "~2.2@dev",
+
 		"nette/tester": "@dev",
 		"jakub-onderka/php-parallel-lint": "~0.6"
 	},
@@ -41,7 +47,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "1.1-dev"
+			"dev-master": "1.2-dev"
 		}
 	}
 }

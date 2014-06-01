@@ -17,14 +17,6 @@ use Nette\Utils\Json;
 
 
 
-if (!class_exists('Tracy\Debugger')) {
-	class_alias('Nette\Diagnostics\Debugger', 'Tracy\Debugger');
-}
-
-if (!class_exists('Tracy\Dumper')) {
-	class_alias('Nette\Diagnostics\Dumper', 'Tracy\Dumper');
-}
-
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
