@@ -27,7 +27,6 @@ require_once __DIR__ . '/../bootstrap.php';
 class ApiExceptionTest extends Tester\TestCase
 {
 
-
 	public function testExceptionConstructorWithErrorCode()
 	{
 		$e = new FacebookApiException(array('error_code' => $code = 404));
