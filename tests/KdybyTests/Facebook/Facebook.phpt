@@ -880,6 +880,33 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 
 
 
+	public function testAppsecretProofNoParams()
+	{
+		$facebook = $this->createWithRequest();
+		$apiClient = $facebook->mockApiClient();
+
+		$token = $facebook->getAccessToken();
+		$proof = $facebook->config->getAppSecretProof($token);
+
+		$facebook->api('/mattynoce');
+		Assert::same($proof, $apiClient->calls[0][1]['appsecret_proof']);
+	}
+
+
+
+	public function testAppsecretProofWithParams()
+	{
+		$facebook = $this->createWithRequest();
+		$apiClient = $facebook->mockApiClient();
+
+		$proof = 'foo';
+		$facebook->api('/mattynoce', array('appsecret_proof' => $proof));
+
+		Assert::same($proof, $apiClient->calls[0][1]['appsecret_proof']);
+	}
+
+
+
 	public function testJsonEncodeOfNonStringParams()
 	{
 		$facebook = $this->createWithRequest();
