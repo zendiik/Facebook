@@ -43,7 +43,7 @@ class FacebookMigratedTest extends KdybyTests\FacebookTestCase
 
 		} catch (Kdyby\Facebook\FacebookApiException $e) {
 			// means the server got the access token
-			Assert::match('invalid_request: An active access token must be used to query information about the current user.', (string) $e);
+			Assert::match('OAuthException: 2500: An active access token must be used to query information about the current user.', (string) $e);
 		}
 	}
 
@@ -58,7 +58,7 @@ class FacebookMigratedTest extends KdybyTests\FacebookTestCase
 			Assert::fail('Should not get here.');
 
 		} catch (Kdyby\Facebook\FacebookApiException $e) {
-			Assert::match('invalid_request: %A%', (string) $e);
+			Assert::match('OAuthException: 100: (#100) Can only call this method on valid test users for your app', (string) $e);
 		}
 	}
 
