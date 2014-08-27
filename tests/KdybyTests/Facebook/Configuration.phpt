@@ -63,6 +63,8 @@ class ConfigurationTest extends TestCase
 		Assert::equal('https://graph.facebook.com/', (string) $this->config->createUrl('graph'));
 		Assert::equal('https://graph.facebook.com/me', (string) $this->config->createUrl('graph', '/me'));
 
+		Assert::equal('https://graph.facebook.com/123456/accounts/test-users', (string) $this->config->createUrl('graph', '/' . $this->config->appId . '/accounts/test-users'));
+
 		Assert::equal('https://www.facebook.com/dialog/oauth', (string) $this->config->createUrl('www', 'dialog/oauth'));
 	}
 
@@ -74,6 +76,8 @@ class ConfigurationTest extends TestCase
 
 		Assert::equal('https://graph.facebook.com/v2.0/', (string) $this->config->createUrl('graph'));
 		Assert::equal('https://graph.facebook.com/v2.0/me', (string) $this->config->createUrl('graph', '/me'));
+
+		Assert::equal('https://graph.facebook.com/v2.0/123456/accounts/test-users', (string) $this->config->createUrl('graph', '/' . $this->config->appId . '/accounts/test-users'));
 
 		Assert::equal('https://www.facebook.com/v2.0/dialog/oauth', (string) $this->config->createUrl('www', 'dialog/oauth'));
 	}
