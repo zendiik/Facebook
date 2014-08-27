@@ -45,6 +45,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'domains' => array(),
 		'permissions' => array(),
 		'canvasBaseUrl' => NULL,
+		'graphVersion' => '',
 		'curlOptions' => array(),
 		'debugger' => '%debugMode%',
 	);
@@ -78,7 +79,8 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->addSetup('$fileUploadSupport', array($config['fileUploadSupport']))
 			->addSetup('$trustForwarded', array($config['trustForwarded']))
 			->addSetup('$permissions', array($config['permissions']))
-			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']));
+			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']))
+			->addSetup('$graphVersion', array($config['graphVersion']));
 
 		if ($config['domains']) {
 			$configurator->addSetup('$service->domains = ? + $service->domains', array($config['domains']));

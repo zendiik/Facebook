@@ -48,7 +48,7 @@ class ConfigurationTest extends TestCase
 
 
 
-	public function testAppSecretProof() 
+	public function testAppSecretProof()
 	{
 		Assert::equal('e87be160723b0a7d7b3558cad3c3e869c27f164b71119deace137fb592aa1f19', $this->config->getAppSecretProof("token"));
 	}
@@ -59,6 +59,23 @@ class ConfigurationTest extends TestCase
 	{
 		Assert::equal('https://api.facebook.com/me?feed=me', (string) $this->config->createUrl('api', 'me', array('feed' => 'me')));
 		Assert::equal('https://api.facebook.com/restserver.php', (string) $this->config->getApiUrl('api'));
+
+		Assert::equal('https://graph.facebook.com/', (string) $this->config->createUrl('graph'));
+		Assert::equal('https://graph.facebook.com/me', (string) $this->config->createUrl('graph', '/me'));
+
+		Assert::equal('https://www.facebook.com/dialog/oauth', (string) $this->config->createUrl('www', 'dialog/oauth'));
+	}
+
+
+
+	public function testCreateVersionedUrl()
+	{
+		$this->config->graphVersion = 'v2.0';
+
+		Assert::equal('https://graph.facebook.com/v2.0/', (string) $this->config->createUrl('graph'));
+		Assert::equal('https://graph.facebook.com/v2.0/me', (string) $this->config->createUrl('graph', '/me'));
+
+		Assert::equal('https://www.facebook.com/v2.0/dialog/oauth', (string) $this->config->createUrl('www', 'dialog/oauth'));
 	}
 
 
