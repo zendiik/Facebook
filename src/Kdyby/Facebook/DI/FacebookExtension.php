@@ -45,6 +45,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 		'domains' => array(),
 		'permissions' => array(),
 		'canvasBaseUrl' => NULL,
+		'graphVersion' => '',
 		'curlOptions' => array(),
 		'debugger' => '%debugMode%',
 	);
@@ -79,6 +80,7 @@ class FacebookExtension extends Nette\DI\CompilerExtension
 			->addSetup('$trustForwarded', array($config['trustForwarded']))
 			->addSetup('$permissions', array($config['permissions']))
 			->addSetup('$canvasBaseUrl', array($config['canvasBaseUrl']))
+			->addSetup('$graphVersion', array($config['graphVersion']))
 			->setInject(FALSE);
 
 		if ($config['domains']) {
