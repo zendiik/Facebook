@@ -474,7 +474,10 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		$facebook = $this->createWithRequest('http://kdyby.org:8080/unit-tests/');
 		$login = $this->toPresenter($facebook->createDialog('login'));
 
-		Assert::true(strpos($login->getUrl(), rawurlencode('http://kdyby.org:8080/unit-tests/')) !== FALSE);
+		$url = new Nette\Http\Url($login->getUrl());
+		parse_str($url->query, $params);
+
+		Assert::match('http://kdyby.org:8080/unit-tests/%a%', $params['redirect_uri']);
 	}
 
 
@@ -484,7 +487,10 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		$facebook = $this->createWithRequest('https://kdyby.org/unit-tests/');
 		$login = $this->toPresenter($facebook->createDialog('login'));
 
-		Assert::true(strpos($login->getUrl(), rawurlencode('https://kdyby.org/unit-tests/')) !== FALSE);
+		$url = new Nette\Http\Url($login->getUrl());
+		parse_str($url->query, $params);
+
+		Assert::match('https://kdyby.org/unit-tests/%a%', $params['redirect_uri']);
 	}
 
 
@@ -494,7 +500,10 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		$facebook = $this->createWithRequest('https://kdyby.org:8080/unit-tests/');
 		$login = $this->toPresenter($facebook->createDialog('login'));
 
-		Assert::true(strpos($login->getUrl(), rawurlencode('https://kdyby.org:8080/unit-tests/')) !== FALSE);
+		$url = new Nette\Http\Url($login->getUrl());
+		parse_str($url->query, $params);
+
+		Assert::match('https://kdyby.org:8080/unit-tests/%a%', $params['redirect_uri']);
 	}
 
 
