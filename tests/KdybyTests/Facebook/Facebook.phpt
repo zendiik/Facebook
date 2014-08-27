@@ -258,13 +258,10 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 
-		$response = $facebook->api(array(
-			'method' => 'fql.query',
-			'query' => 'SELECT name FROM user WHERE uid=4',
-		));
+		$response = $facebook->api('/4');
 
-		Assert::equal(1, count($response));
-		Assert::equal($response[0]['name'], 'Mark Zuckerberg');
+		Assert::same('4', $response['id']);
+		Assert::same('Mark Zuckerberg', $response['name']);
 	}
 
 
@@ -283,17 +280,12 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		$facebook->setAccessToken('this-is-not-really-an-access-token');
 
 		try {
-			$facebook->api(array(
-				'method' => 'fql.query',
-				'query' => 'SELECT name FROM profile WHERE id=4',
-			));
+			$facebook->api('/4');
 
 			Assert::fail('Should not get here.');
 
 		} catch (FacebookApiException $e) {
-			$result = $e->getResult();
-			Assert::true(is_array($result), 'expect a result object');
-			Assert::same('190', $result['error_code']);
+			Assert::same(190, $e->getCode());
 		}
 	}
 
