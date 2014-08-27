@@ -549,7 +549,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		$facebook = $this->createWithRequest();
 
 		// use the bundled cert from the start
-		$this->apiClient->curlOptions[CURLOPT_CAINFO] = __DIR__ . '/../../../src/Kdyby/Facebook/Api/fb_ca_chain_bundle.crt';
+		$this->apiClient->curlOptions[CURLOPT_CAINFO] = Kdyby\CurlCaBundle\CertificateHelper::getCaInfoFile();
 		$response = $facebook->api('/naitik');
 		Assert::same($response['id'], '5526183'); // should get expected id.
 	}
