@@ -118,7 +118,7 @@ class LoginPresenter extends BasePresenter
 		$dialog->onResponse[] = function (LoginDialog $dialog) {
 			$fb = $dialog->getFacebook();
 
-			if ( ! $fb->getUser()) {
+			if (!$fb->getUser()) {
 				$this->flashMessage("Sorry bro, facebook authentication failed.");
 				return;
 			}
