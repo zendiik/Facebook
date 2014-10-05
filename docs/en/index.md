@@ -83,7 +83,7 @@ Then how are we going to login to Facebook you may ask? Easily! There is a compo
 use Kdyby\Facebook\Facebook;
 use Kdyby\Facebook\Dialog\LoginDialog;
 use Kdyby\Facebook\FacebookApiException;
-use Nette\Diagnostics\Debugger;
+use Tracy\Debugger;
 
 class LoginPresenter extends BasePresenter
 {
