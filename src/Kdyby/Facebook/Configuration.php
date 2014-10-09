@@ -113,6 +113,12 @@ class Configuration extends Nette\Object
 	public $appSecret;
 
 	/**
+	 * Verify API calls by adding appsecret_proof to all calls
+	 * @var string
+	 */
+	public $verifyApiCalls;
+
+	/**
 	 * Indicates if the CURL based @ syntax for file uploads is enabled.
 	 * @var boolean
 	 */
