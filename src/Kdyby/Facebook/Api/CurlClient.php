@@ -189,11 +189,11 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 			$params['access_token'] = $this->fb->getAccessToken();
 		}
 
-		if (isset($params['access_token']) && !isset($params['appsecret_proof'])) {
+		if ($this->fb->getConfig()->verifyApiCalls && isset($params['access_token']) && !isset($params['appsecret_proof'])) {
 			$params['appsecret_proof'] = $this->fb->config->getAppSecretProof($params['access_token']);
 		}
 
-		if($params['appsecret_proof'] === false) {
+		if ($params['appsecret_proof'] === false) {
 			unset($params['appsecret_proof']);
 		}
 
