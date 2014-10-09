@@ -193,6 +193,10 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 			$params['appsecret_proof'] = $this->fb->config->getAppSecretProof($params['access_token']);
 		}
 
+		if($params['appsecret_proof'] === false) {
+			unset($params['appsecret_proof']);
+		}
+
 		// json_encode all params values that are not strings
 		$params = array_map(function ($value) {
 			if ($value instanceof UrlScript) {
