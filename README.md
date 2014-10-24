@@ -23,16 +23,14 @@ Installation
 The best way to install Kdyby/Facebook is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require kdyby/facebook:~1.1
+$ composer require kdyby/facebook:1.1.*
 ```
-
-For Nette `2.1` and newer is `~1.1`, for Nette `2.0` is `0.9.*`
 
 
 Documentation
 ------------
 
-Learn how to authenticate the user using Facebook oauth or call Facebook's graph api in [documentation](https://github.com/Kdyby/Facebook/blob/master/docs/en/index.md).
+Learn how to authenticate the user using Facebook oauth or call Facebook's graph api in [documentation](https://github.com/Kdyby/Facebook/blob/nette-2.1/docs/en/index.md).
 
 
 

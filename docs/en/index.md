@@ -15,24 +15,14 @@ Installation
 The best way to install Kdyby/Facebook is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require kdyby/facebook:~1.1
+$ composer require kdyby/facebook:1.1.*
 ```
-
-For Nette `2.1` and newer is `~1.1`, for Nette `2.0` is `0.9.*`
 
 With Nette `2.1` and newer, you can enable the extension using your neon config.
 
 ```yml
 extensions:
 	facebook: Kdyby\Facebook\DI\FacebookExtension
-```
-
-If you're using older Nette, you might have to register it in `app/bootstrap.php`
-
-```php
-Kdyby\Facebook\DI\FacebookExtension::register($configurator);
-
-return $configurator->createContainer();
 ```
 
 
@@ -47,7 +37,7 @@ You also might wanna provide default required permissions.
 facebook:
 	appId: "1234567890"
 	appSecret: "e807f1fcf82d132f9bb018ca6738a19f"
-	permissions: [public_profile, email]
+	permissions: [public_profile, email] # theese are the default read permissions, you might need to
 ```
 
 And that's all.
@@ -66,8 +56,30 @@ The extension monitors all the api communication, when in debug mode. All that i
 Calling Facebook API
 --------------------
 
-On the original PHP SDK, there is a method `api()` on the facebook class.
-The usage is 100% identical with the original SDK, so you can just follow their documentation on how to use it.
+To find the endpoint you require, visit [the Facebook Graph API Reference](https://developers.facebook.com/docs/graph-api/reference/v2.1).
+
+This client has an `api()` method that allows you to call the endpoints. For example to read the likes of the logged in user, you can call
+
+```php
+$allLikes = $facebook->api('/me/likes');
+```
+
+Or if you care only if he likes your page
+
+
+```php
+$doYouLikeMe = $facebook->api('/me/likes/' . $pageId);
+```
+
+More here: [docs/graph-api/reference/v2.1/user/likes#read](https://developers.facebook.com/docs/graph-api/reference/v2.1/user/likes#read)
+
+You may even want to publish a post, you should be able to call
+
+```php
+$result = $facebook->api('/me/feed', 'POST', ['message' => 'Hello there fellas!']);
+```
+
+More here: [docs/graph-api/reference/v2.1/user/feed/#publish](https://developers.facebook.com/docs/graph-api/reference/v2.1/user/feed/#publish)
 
 
 
