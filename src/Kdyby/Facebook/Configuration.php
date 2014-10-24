@@ -203,6 +203,7 @@ class Configuration extends Nette\Object
 
 	/**
 	 * The default scope for login dialog.
+	 * @see https://developers.facebook.com/docs/facebook-login/permissions/v2.1
 	 * @var array
 	 */
 	public $permissions;
