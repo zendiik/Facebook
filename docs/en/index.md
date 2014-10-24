@@ -101,7 +101,7 @@ use Nette\Diagnostics\Debugger;
 class LoginPresenter extends BasePresenter
 {
 
-	/** @var Facebook */
+	/** @var \Kdyby\Facebook\Facebook */
 	private $facebook;
 
 	/** @var UsersModel */
@@ -114,7 +114,7 @@ class LoginPresenter extends BasePresenter
 	 * Class UsersModel is here only to show you how the process should work,
 	 * you have to implement it yourself.
 	 */
-	public function __construct(Facebook $facebook, UsersModel $usersModel)
+	public function __construct(\Kdyby\Facebook\Facebook $facebook, UsersModel $usersModel)
 	{
 		parent::__construct();
 		$this->facebook = $facebook;
@@ -122,13 +122,13 @@ class LoginPresenter extends BasePresenter
 	}
 
 
-	/** @return LoginDialog */
+	/** @return \Kdyby\Facebook\Dialog\LoginDialog */
 	protected function createComponentFbLogin()
 	{
 		$dialog = $this->facebook->createDialog('login');
-		/** @var LoginDialog $dialog */
+		/** @var \Kdyby\Facebook\Dialog\LoginDialog $dialog */
 
-		$dialog->onResponse[] = function (LoginDialog $dialog) {
+		$dialog->onResponse[] = function (\Kdyby\Facebook\Dialog\LoginDialog $dialog) {
 			$fb = $dialog->getFacebook();
 
 			if (!$fb->getUser()) {
@@ -171,14 +171,14 @@ class LoginPresenter extends BasePresenter
 				 * You can celebrate now! The user is authenticated :)
 				 */
 
-			} catch (FacebookApiException $e) {
+			} catch (\Kdyby\Facebook\FacebookApiException $e) {
 				/**
 				 * You might wanna know what happened, so let's log the exception.
 				 *
 				 * Rendering entire bluescreen is kind of slow task,
 				 * so might wanna log only $e->getMessage(), it's up to you
 				 */
-				Debugger::log($e, 'facebook');
+				\Tracy\Debugger::log($e, 'facebook');
 				$this->flashMessage("Sorry bro, facebook authentication failed hard.");
 			}
 
