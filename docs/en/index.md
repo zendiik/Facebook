@@ -38,6 +38,7 @@ facebook:
 	appId: "1234567890"
 	appSecret: "e807f1fcf82d132f9bb018ca6738a19f"
 	permissions: [public_profile, email] # theese are the default read permissions, you might need to
+	graphVersion: v2.1
 ```
 
 And that's all.
