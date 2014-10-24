@@ -47,7 +47,7 @@ You also might wanna provide default required permissions.
 facebook:
 	appId: "1234567890"
 	appSecret: "e807f1fcf82d132f9bb018ca6738a19f"
-	permissions: [email]
+	permissions: [public_profile, email]
 ```
 
 And that's all.
