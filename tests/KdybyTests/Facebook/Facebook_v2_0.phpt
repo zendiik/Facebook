@@ -335,33 +335,6 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 
 
 
-//	public function testGetUserAndAccessTokenFromSession()
-//	{
-//		$facebook = $this->createWithRequest();
-//		$this->session->access_token = self::EXPIRED_ACCESS_TOKEN;
-//		$this->session->user_id = 12345;
-//
-//		Assert::same(self::EXPIRED_ACCESS_TOKEN, $facebook->getAccessToken());
-//		Assert::same(12345, $facebook->getUser());
-//	}
-
-
-
-//	public function testGetUserAndAccessTokenFromSignedRequestNotSession()
-//	{
-//		$facebook = $this->createWithRequest('http://kdyby.org/unit-tests/?signed_request=' . rawurlencode($this->kValidSignedRequest()));
-//		$this->session->access_token = self::EXPIRED_ACCESS_TOKEN;
-//		$this->session->user_id = 41572;
-//
-//		Assert::notEqual(41572, $facebook->getUser());
-//		Assert::equal(499834690, $facebook->getUser());
-//
-//		Assert::notEqual(self::EXPIRED_ACCESS_TOKEN, $accessToken = $facebook->getAccessToken());
-//		Assert::true(!empty($accessToken));
-//	}
-
-
-
 	public function testValidCodeToToken()
 	{
 		$facebook = $this->createWithRequest();
