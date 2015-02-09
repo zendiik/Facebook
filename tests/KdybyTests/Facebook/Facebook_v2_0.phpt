@@ -219,13 +219,8 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 
-		try {
-			$response = $facebook->api('/4');
-			Assert::fail('Should not get here.');
-
-		} catch (FacebookApiException $e) {
-			Assert::same('The global ID 4 is not allowed. Please use the application specific ID instead.', $e->getMessage());
-		}
+		$response = $facebook->api('/4');
+		Assert::same('Mark Zuckerberg', $response['name']);
 	}
 
 
