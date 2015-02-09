@@ -79,8 +79,10 @@ abstract class FacebookTestCase extends Tester\TestCase
 		$config->addConfig(__DIR__ . '/Facebook/files/' . $fbConfig, $config::NONE);
 		$config->addConfig(__DIR__ . '/nette-reset.neon', $config::NONE);
 
-		$dic = $config->createContainer();
 		/** @var \Nette\DI\Container|\SystemContainer $dic */
+		$dic = $config->createContainer();
+
+		$dic->removeService('httpRequest');
 		$dic->addService('httpRequest', new Nette\Http\Request(
 				new Nette\Http\UrlScript('http://kdyby.org/'),
 				NULL, NULL, NULL, NULL, NULL, 'GET')
