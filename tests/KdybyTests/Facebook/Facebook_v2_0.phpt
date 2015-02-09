@@ -16,6 +16,7 @@ use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
 use Nette;
 use Nette\Application\Routers\Route;
+use Nette\ArrayHash;
 use Tester;
 use Tester\Assert;
 
@@ -30,12 +31,12 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 {
 
 	/**
-	 * @var Nette\Utils\ArrayHash
+	 * @var ArrayHash
 	 */
 	private $testUser;
 
 	/**
-	 * @var Nette\Utils\ArrayHash
+	 * @var ArrayHash
 	 */
 	private $testUser2;
 
@@ -80,8 +81,8 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 		fseek($h, 0);
 
 		list($user1, $user2) = json_decode(fread($h, 1000000));
-		$this->testUser = Nette\Utils\ArrayHash::from($user1);
-		$this->testUser2 = Nette\Utils\ArrayHash::from($user2);
+		$this->testUser = ArrayHash::from($user1);
+		$this->testUser2 = ArrayHash::from($user2);
 
 		@fclose($h);
 	}
