@@ -272,23 +272,6 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 
 
 
-//	public function testGraphAPIWithExpiredAccessToken()
-//	{
-//		$facebook = $this->createWithRequest();
-//		$facebook->setAccessToken(self::EXPIRED_ACCESS_TOKEN);
-//
-//		try {
-//			$facebook->api('/me');
-//			Assert::fail('Should not get here.');
-//
-//		} catch (FacebookApiException $e) {
-//			// means the server got the access token and didn't like it
-//			Assert::match('OAuthException: 190: Error validating access token: %a%', (string) $e);
-//		}
-//	}
-
-
-
 	public function testCurlFailure()
 	{
 		$facebook = $this->createWithRequest();
