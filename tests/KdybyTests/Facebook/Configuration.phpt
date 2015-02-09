@@ -87,8 +87,8 @@ class ConfigurationTest extends TestCase
 	public function testPassingEntireGraphUrl()
 	{
 		Assert::equal(
-			'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE=',
-			(string) $this->config->createUrl('graph', 'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE=')
+			'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE%3D',
+			(string) $this->config->createUrl('graph', 'https://graph.facebook.com/me/albums?limit=25&after=MTAxNTExOTQ1MjAwNzI5NDE%3D')
 		);
 	}
 
