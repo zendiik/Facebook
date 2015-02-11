@@ -164,6 +164,28 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 
 
 
+	public function testGetUserDetails()
+	{
+		/** @var Kdyby\Facebook\Facebook $facebook */
+		$facebook = $this->container->getByType('Kdyby\Facebook\Facebook');
+		$facebook->setAccessToken($this->testUser->access_token);
+
+		Assert::same($this->testUser->id, $facebook->getUser());
+
+		$profile = $facebook->getProfile();
+		Assert::same('Filip Test Procházka', $profile->details['name']);
+
+		Assert::same([
+			'installed' => 1,
+			'public_profile' => 1,
+			'read_stream' => 1,
+			'user_photos' => 1,
+			'user_friends' => 1,
+		], (array) $profile->getPermissions());
+	}
+
+
+
 	public function testSignedRequestRewrite()
 	{
 		$facebook = $this->createWithRequest(NULL, array(

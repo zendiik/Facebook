@@ -133,8 +133,18 @@ class Profile extends Nette\Object
 
 		try {
 			$response = $this->facebook->api("/{$this->profileId}/permissions", 'GET', $params);
-			if ($response && !empty($response->data[0])) {
-				return ArrayHash::from($response->data[0]);
+			if ($response && !empty($response->data)) {
+				$items = array();
+				if (isset($response->data[0]['permission'])) {
+					foreach ($response->data as $permissionsItem) {
+						$items[$permissionsItem->permission] = $permissionsItem->status === 'granted';
+					}
+
+				} elseif (isset($response->data[0])) {
+					$items = (array) $response->data[0];
+				}
+
+				return ArrayHash::from($items);
 			}
 
 		} catch (FacebookApiException $e) {
