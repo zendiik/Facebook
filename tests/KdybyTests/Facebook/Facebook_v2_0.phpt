@@ -46,7 +46,7 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 		$this->createContainer('config.kdyby.neon');
 		$this->config->graphVersion = 'v2.0';
 
-		$testUser = dirname(TEMP_DIR) . '/test-user.json';
+		$testUser = dirname(TEMP_DIR) . '/test-user-v2.0.json';
 		if (!is_dir($dir = dirname($testUser))) {
 			@mkdir($dir, 0777, TRUE);
 		}
@@ -72,7 +72,7 @@ class Facebook_v2_0Test extends KdybyTests\FacebookTestCase
 					'permissions' => 'read_stream,user_photos',
 				));
 
-				fwrite($h, json_encode(array($testUser, $testUser2)));
+				fwrite($h, json_encode(array($testUser, $testUser2), JSON_PRETTY_PRINT));
 			}
 
 			flock($h, LOCK_UN);
