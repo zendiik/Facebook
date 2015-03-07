@@ -101,6 +101,8 @@ abstract class FacebookTestCase extends Tester\TestCase
 		$this->session = $dic->getByType('Kdyby\Facebook\SessionStorage');
 		$this->apiClient = $dic->getByType('Kdyby\Facebook\ApiClient');
 		$this->container = $dic;
+
+		return $dic;
 	}
 
 
