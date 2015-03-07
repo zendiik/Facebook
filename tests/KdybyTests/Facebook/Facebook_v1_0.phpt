@@ -72,7 +72,7 @@ class Facebook_v1_0Test extends KdybyTests\FacebookTestCase
 					'permissions' => 'read_stream,user_photos',
 				));
 
-				fwrite($h, json_encode(array($testUser, $testUser2), JSON_PRETTY_PRINT));
+				fwrite($h, json_encode(array($testUser, $testUser2), defined('JSON_PRETTY_PRINT') ? constant('JSON_PRETTY_PRINT') : 0));
 			}
 
 			flock($h, LOCK_UN);
