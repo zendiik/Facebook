@@ -49,7 +49,7 @@ class ResourceIteratorTest extends ResourceTestCase
 		$iterator = $this->iterator;
 
 		$i = 0;
-		while ($i < $this->user->postCount) {
+		while ($i < 5) {
 			Assert::true($iterator->valid());
 			$iterator->next();
 			$i++;
@@ -106,6 +106,7 @@ class ResourceIteratorTest extends ResourceTestCase
 			$iterator->next();
 			$i++;
 		}
+		Assert::equal(5, $i);
 		Assert::equal(NULL, $iterator->key());
 	}
 
