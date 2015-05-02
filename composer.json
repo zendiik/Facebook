@@ -63,6 +63,11 @@
 			"src/Kdyby/Facebook/exceptions.php"
 		]
 	},
+	"autoload-dev": {
+		"classmap": [
+			"tests/KdybyTests"
+		]
+	},
 	"extra": {
 		"branch-alias": {
 			"dev-master": "2.0-dev"

@@ -12,12 +12,13 @@ namespace KdybyTests\Facebook;
 
 use Kdyby;
 use Kdyby\Facebook\FacebookApiException;
-use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
 use Nette;
 use Nette\Application\Routers\Route;
 use Tester;
 use Tester\Assert;
+
+
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -26,64 +27,14 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class Facebook_v2_2Test extends KdybyTests\FacebookTestCase
+class Facebook_v2_3Test extends FacebookTestCase
 {
-
-	/**
-	 * @var Nette\Utils\ArrayHash
-	 */
-	private $testUser;
-
-	/**
-	 * @var Nette\Utils\ArrayHash
-	 */
-	private $testUser2;
-
-
 
 	protected function setUp()
 	{
 		$this->createContainer('config.kdyby.neon');
 		$this->config->graphVersion = 'v2.3';
-
-		$testUser = dirname(TEMP_DIR) . '/test-user-v2.3.json';
-		if (!is_dir($dir = dirname($testUser))) {
-			@mkdir($dir, 0777, TRUE);
-		}
-
-		$h = fopen($testUser, 'a+b');
-		$stat = fstat($h);
-		if (!$stat['size']) {
-			flock($h, LOCK_EX);
-
-			$stat = fstat($h);
-			if (!$stat['size']) {
-				$testUser = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', array(
-					'installed' => TRUE,
-					'name' => 'Filip Test Procházka',
-					'locale' => 'en_US',
-					'permissions' => 'read_stream,user_photos',
-				));
-
-				$testUser2 = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', array(
-					'installed' => TRUE,
-					'name' => 'Jan Test Procházka',
-					'locale' => 'en_US',
-					'permissions' => 'read_stream,user_photos',
-				));
-
-				fwrite($h, json_encode(array($testUser, $testUser2), defined('JSON_PRETTY_PRINT') ? constant('JSON_PRETTY_PRINT') : 0));
-			}
-
-			flock($h, LOCK_UN);
-		}
-		fseek($h, 0);
-
-		list($user1, $user2) = json_decode(fread($h, 1000000));
-		$this->testUser = Nette\Utils\ArrayHash::from($user1);
-		$this->testUser2 = Nette\Utils\ArrayHash::from($user2);
-
-		@fclose($h);
+		$this->prepareTestUsers();
 	}
 
 
@@ -425,4 +376,4 @@ class Facebook_v2_2Test extends KdybyTests\FacebookTestCase
 
 }
 
-KdybyTests\run(new Facebook_v2_2Test());
+KdybyTests\run(new Facebook_v2_3Test());
