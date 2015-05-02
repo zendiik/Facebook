@@ -2,7 +2,6 @@
 
 namespace KdybyTests\Facebook\Resource;
 
-use Kdyby\Facebook\FacebookApiException;
 use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
 use Tester;
@@ -17,17 +16,10 @@ require_once __DIR__ . '/../../bootstrap.php';
 abstract class ResourceTestCase extends KdybyTests\Facebook\FacebookTestCase
 {
 
-	const TEST_APP_ACCESS_TOKEN = "494469227315105|rjCGOc1ntRu2-B2J0QaKZohrU7c";
-
 	/**
 	 * @var \Kdyby\Facebook\Resource\ResourceLoader
 	 */
 	protected $loader;
-
-	/**
-	 * @var \KdybyTests\Facebook\Resource\TestUser
-	 */
-	protected $user;
 
 
 
@@ -38,13 +30,12 @@ abstract class ResourceTestCase extends KdybyTests\Facebook\FacebookTestCase
 	{
 		parent::setUp();
 		$this->createContainer("config.kdyby.neon");
-		$facebook = $this->createWithRequest();
+		$this->config->graphVersion = 'v2.3';
+		$this->prepareTestUsers();
 
-		$facebook->setAccessToken(self::TEST_APP_ACCESS_TOKEN);
+		$this->facebook->setAccessToken($this->testUser->access_token);
 
-		$this->user = new TestUser();
-
-		$this->loader = new ResourceLoader($facebook, "/" . $this->user->id . "/posts");
+		$this->loader = new ResourceLoader($this->facebook, sprintf("/%s/feed", $this->testUser->id));
 		$this->loader->setLimit(3);
 	}
 

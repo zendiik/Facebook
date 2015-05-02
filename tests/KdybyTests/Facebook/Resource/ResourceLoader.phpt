@@ -111,41 +111,16 @@ class ResourceLoaderTest extends ResourceTestCase
 		$loader = $this->loader;
 		$loader->setFields(array("id", "message"));
 
-		$expected = ArrayHash::from(array(
-			"0" => array(
-				"id" => "100006500974824_1378194239073929",
-				"message" => "Testovací status 5",
-				"created_time" => "2013-08-04T20:11:16+0000",
-			),
-			"1" => array(
-				"id" => "100006500974824_1378194192407267",
-				"message" => "Testovací status 4",
-				"created_time" => "2013-08-04T20:11:12+0000",
-			),
-			"2" => array(
-				"id" => "100006500974824_1378194159073937",
-				"message" => "Testovací status 3",
-				"created_time" => "2013-08-04T20:11:09+0000",
-			),
-		));
-		Assert::equal($expected, $loader->getNextPage());
+		$nextPage = array_values((array) $loader->getNextPage());
+		Assert::equal("Testovací status 5", $nextPage[0]->message);
+		Assert::equal("Testovací status 4", $nextPage[1]->message);
+		Assert::equal("Testovací status 3", $nextPage[2]->message);
 
-		$expected = ArrayHash::from(array(
-			"0" => array(
-				"id" => "100006500974824_1378194142407272",
-				"message" => "Testovací status 2",
-				"created_time" => "2013-08-04T20:11:06+0000",
-			),
-			"1" => array(
-				"id" => "100006500974824_1378194129073940",
-				"message" => "Testovací status 1",
-				"created_time" => "2013-08-04T20:11:03+0000",
-			),
-		));
-		Assert::equal($expected, $loader->getNextPage());
+		$nextPage = array_values((array) $loader->getNextPage());
+		Assert::equal("Testovací status 2", $nextPage[0]->message);
+		Assert::equal("Testovací status 1", $nextPage[1]->message);
 
-		$expected = ArrayHash::from(array());
-		Assert::equal($expected, $loader->getNextPage());
+		Assert::count(0, $loader->getNextPage());
 	}
 
 
@@ -154,41 +129,23 @@ class ResourceLoaderTest extends ResourceTestCase
 	{
 		$loader = $this->loader;
 		$loader->setFields(array("id", "message"));
-		$expected = ArrayHash::from(array(
-			"0" => array(
-				"id" => "100006500974824_1378194239073929",
-				"message" => "Testovací status 5",
-				"created_time" => "2013-08-04T20:11:16+0000",
-			),
-			"1" => array(
-				"id" => "100006500974824_1378194192407267",
-				"message" => "Testovací status 4",
-				"created_time" => "2013-08-04T20:11:12+0000",
-			),
-			"2" => array(
-				"id" => "100006500974824_1378194159073937",
-				"message" => "Testovací status 3",
-				"created_time" => "2013-08-04T20:11:09+0000",
-			),
-		));
-		Assert::equal($expected, $loader->getNextPage());
 
-		$expected2 = ArrayHash::from(array(
-			"0" => array(
-				"id" => "100006500974824_1378194142407272",
-				"message" => "Testovací status 2",
-				"created_time" => "2013-08-04T20:11:06+0000",
-			),
-			"1" => array(
-				"id" => "100006500974824_1378194129073940",
-				"message" => "Testovací status 1",
-				"created_time" => "2013-08-04T20:11:03+0000",
-			),
-		));
-		Assert::equal($expected2, $loader->getNextPage());
+		$nextPage = array_values((array) $loader->getNextPage());
+		Assert::equal("Testovací status 5", $nextPage[0]->message);
+		Assert::equal("Testovací status 4", $nextPage[1]->message);
+		Assert::equal("Testovací status 3", $nextPage[2]->message);
+
+		$nextPage = array_values((array) $loader->getNextPage());
+		Assert::equal("Testovací status 2", $nextPage[0]->message);
+		Assert::equal("Testovací status 1", $nextPage[1]->message);
 
 		$loader->reset();
-		Assert::equal($expected, $loader->getNextPage());
+
+		$nextPage = array_values((array) $loader->getNextPage());
+		Assert::count(2, $loader->getNextPage());
+		Assert::equal("Testovací status 5", $nextPage[0]->message);
+		Assert::equal("Testovací status 4", $nextPage[1]->message);
+		Assert::equal("Testovací status 3", $nextPage[2]->message);
 	}
 
 
