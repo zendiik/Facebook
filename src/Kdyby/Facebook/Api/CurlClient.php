@@ -139,6 +139,13 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 			$params = $method;
 			$method = NULL;
 		}
+
+		if (($i = strpos($path, '?')) !== FALSE) {
+			parse_str(substr($path, $i + 1), $tmp);
+			$params += $tmp;
+			$path = substr($path, 0, $i);
+		}
+
 		$params['method'] = $method ?: 'GET'; // method override as we always do a POST
 		$domainKey = Facebook\Helpers::isVideoPost($path, $method) ? 'graph_video' : 'graph';
 

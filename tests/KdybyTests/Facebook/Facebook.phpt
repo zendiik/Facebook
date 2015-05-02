@@ -890,6 +890,25 @@ class FacebookTest extends FacebookTestCase
 
 
 
+	public function testQueryInPath()
+	{
+		$facebook = $this->createWithRequest();
+		$apiClient = $facebook->mockApiClient();
+		$apiClient->response = '{}';
+
+		$facebook->api('/123/posts?limit=5', array(
+			'fields' => 'foo',
+		));
+
+		$params = $apiClient->calls[0][1];
+		Assert::equal('https://graph.facebook.com/123/posts', (string) $apiClient->calls[0][0]);
+		Assert::equal(['fields', 'limit', 'method', 'access_token', 'appsecret_proof'], array_keys($params));
+		Assert::equal('foo', $params['fields']);
+		Assert::equal('5', $params['limit']);
+	}
+
+
+
 	private function kValidSignedRequest($id = self::TEST_USER, $oauth_token = NULL)
 	{
 		return Kdyby\Facebook\SignedRequest::encode(array(
