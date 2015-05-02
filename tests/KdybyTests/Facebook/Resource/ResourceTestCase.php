@@ -2,13 +2,14 @@
 
 namespace KdybyTests\Facebook\Resource;
 
+use Kdyby\Facebook\FacebookApiException;
 use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
+use Tester;
 
 
 
 require_once __DIR__ . '/../../bootstrap.php';
-require_once __DIR__ . '/TestUser.php';
 
 /**
  * @author Martin Štekl <martin.stekl@gmail.com>
