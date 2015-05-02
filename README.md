@@ -23,7 +23,7 @@ Installation
 The best way to install Kdyby/Facebook is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require kdyby/facebook:~1.2
+$ composer require kdyby/facebook
 ```
 
 
