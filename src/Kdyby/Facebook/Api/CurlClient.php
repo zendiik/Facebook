@@ -89,6 +89,20 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 
 
 
+	public function disableCache()
+	{
+		$this->cache = FALSE;
+	}
+
+
+
+	public function enableCache()
+	{
+		$this->cache = [];
+	}
+
+
+
 	/**
 	 * @param Facebook\Facebook $facebook
 	 */
@@ -238,7 +252,7 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 	 */
 	protected function makeRequest($url, array $params, $ch = NULL)
 	{
-		if (isset($this->cache[$cacheKey = md5(serialize(array($url, $params)))])) {
+		if (is_array($this->cache) && isset($this->cache[$cacheKey = md5(serialize(array($url, $params)))])) {
 			return $this->cache[$cacheKey];
 		}
 
@@ -333,7 +347,12 @@ class CurlClient extends Nette\Object implements Facebook\ApiClient
 
 		$this->onSuccess($result, $info);
 		curl_close($ch);
-		return $this->cache[$cacheKey] = $result;
+
+		if (is_array($this->cache)) {
+			$this->cache[$cacheKey] = $result;
+		}
+
+		return $result;
 	}
 
 
