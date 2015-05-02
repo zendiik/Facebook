@@ -1,0 +1,24 @@
+[
+    {
+        "id": "103332036667110",
+        "access_token": "CAAHBt5alf6EBANI4q1OrsGNWyb1iqYnqP0MiNcDPuktC20WafjKKZAT7ZCQkq55pc0DR3OA8t3sF32mQvlzA8AAPqYaew4TZCH4IupHwSi4ZBACOq12ZAJJgvIZCLfSCBcjkaIC2PlhZBv2zbZB6qS6KoE8nE0102yVuWu5oU5BEv07WIIC9zZBG1xvsIsszjSGEGDVnMcPAW9AZDZD",
+        "login_url": "https:\/\/developers.facebook.com\/checkpoint\/test-user-login\/103332036667110\/",
+        "email": "filip_test_prochazka_1430598390@tfbnw.net",
+        "password": "1324664",
+        "permissions": {
+            "user_friends": true,
+            "public_profile": true
+        }
+    },
+    {
+        "id": "107408442923849",
+        "access_token": "CAAHBt5alf6EBAFts9ZCMUYL0wnrjYMnklVe3i1cZCmiN8HRZB2yVz5lPQHQZAHnotTzYUfZB7CvOsKZBNiViiFENqY161KzCM25DARTH7Azy3Cx9Idq96q87oJtcdsfOIiZCZB3o8QO5H0Seci71q0yM1rdcEHPTgM1gzLNaa11arfh1hZC10AUhLrLD3ps4u2guZB2JOcd7udZAQZDZD",
+        "login_url": "https:\/\/developers.facebook.com\/checkpoint\/test-user-login\/107408442923849\/",
+        "email": "jan_test_prochazka_1430598398@tfbnw.net",
+        "password": "1780740165",
+        "permissions": {
+            "user_friends": true,
+            "public_profile": true
+        }
+    }
+]
