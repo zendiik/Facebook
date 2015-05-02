@@ -15,7 +15,7 @@ Installation
 The best way to install Kdyby/Facebook is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require kdyby/facebook:~1.2
+$ composer require kdyby/facebook
 ```
 
 With Nette `2.1` and newer, you can enable the extension using your neon config.
@@ -38,7 +38,7 @@ facebook:
 	appId: "1234567890"
 	appSecret: "e807f1fcf82d132f9bb018ca6738a19f"
 	permissions: [public_profile, email] # theese are the default read permissions, you might need to
-	graphVersion: v2.1
+	graphVersion: v2.3
 ```
 
 And that's all.
