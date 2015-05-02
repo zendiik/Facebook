@@ -75,10 +75,15 @@ class Panel extends Nette\Object implements IBarPanel
 		}
 
 		ob_start();
-		$esc = callback('Nette\Templating\Helpers::escapeHtml');
+		if (class_exists('Latte\Runtime\Filters')) {
+			$esc = Nette\Utils\Callback::closure('Latte\Runtime\Filters::escapeHtml');
+		} else {
+			$esc = 'Nette\Templating\Helpers::escapeHtml';
+		}
+
 		$click = class_exists('\Tracy\Dumper')
 			? function ($o, $c = FALSE) { return \Tracy\Dumper::toHtml($o, array('collapse' => $c)); }
-			: callback('\Tracy\Helpers::clickableDump');
+			: '\Tracy\Helpers::clickableDump';
 		$totalTime = $this->totalTime ? sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : 'none';
 
 		require __DIR__ . '/panel.phtml';
