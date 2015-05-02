@@ -176,13 +176,9 @@ class Facebook_v1_0Test extends KdybyTests\FacebookTestCase
 		Assert::same('Filip Test Procházka', $profile->details['name']);
 
 		Assert::same(array(
-			'installed' => 1,
-			'basic_info' => 1,
-			'public_profile' => 1,
-			'read_stream' => 1,
-			'export_stream' => 1,
-			'user_photos' => 1,
-			'user_friends' => 1,
+			'user_friends' => TRUE,
+			'public_profile' => TRUE,
+			'installed' => TRUE,
 		), (array) $profile->getPermissions());
 	}
 
