@@ -51,15 +51,20 @@ class Panel extends Nette\Object implements IBarPanel
 	 */
 	public function getTab()
 	{
-		$img = Html::el('img')->src('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABW0lEQVR42qWS3ytDYRjH9z+R2SEucCFxYdkOo6HQkanphCtFlvy4XTtna360WjaUcJy5Ie1iKaVQftVakXaxaEmp2fl633dxDsu52VOfm+f9fs77PG/HUlHVdcspgkbAX2y8BGtXADUEjpc0mtVFXSqjQ4jAu6BAXDxE28gGk3WxXCABGa1D6zg4ucV3TS4n2M2mos0pwSXGUSgUcXHzjJVwEnZPlPbNxfqeINzT26AVV69Q1ekHVzr7X2zoDSF5nsFTNs/E/NsH0o8vGJ3dg9URMBFdQSSS93jI5JiYe33H5V0WwzO7qKWi+agy3FOlUXeOruludPzfo3LsFSUj7MsuMcbELbJjtd1fOjOKLYNrcE7EwBtweDchLqlMVMnY9vEoy5CsLrYLEc3jU2BkbF6BTz5F4bOI47M0hLl91qfZH7GxL5RqHljVCDBAfwC6J7utqZ/1NJq1VFJfEBZqgX+geF0AAAAASUVORK5CYII=');
-		$tab = Html::el('span')->title('Facebook')->add($img);
-		$title = Html::el()->setText('Facebook');
+		$logo = Html::el()->setHtml(file_get_contents(__DIR__ . '/logo.svg'));
+		$tab = Html::el()->add($logo);
+		$title = Html::el('span', ['class' => 'tracy-label'])->title('Facebook');
+
 		if ($this->calls) {
 			$title->setText(
 				count($this->calls) . ' call' . (count($this->calls) > 1 ? 's' : '') .
 				' / ' . sprintf('%0.2f', $this->totalTime) . ' s'
 			);
+
+		} else {
+			$title->setText('Facebook');
 		}
+
 		return (string)$tab->add($title);
 	}
 
