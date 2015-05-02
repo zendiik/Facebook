@@ -291,16 +291,6 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 
 
 
-	public function testAPIGraphPublicData()
-	{
-		$facebook = $this->createWithRequest();
-
-		$response = $facebook->api('/jerry');
-		Assert::same($response['id'], '214707');
-	}
-
-
-
 	public function testGraphAPIWithBogusAccessToken()
 	{
 		$facebook = $this->createWithRequest();
@@ -376,22 +366,6 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 		}
 
 		Assert::same('CurlException', $exception->getType());
-	}
-
-
-
-	public function testGraphAPIWithOnlyParams()
-	{
-		$facebook = $this->createWithRequest();
-
-		$response = $facebook->api('/jerry');
-		Assert::true(isset($response['id'])); // User ID should be public.
-		Assert::true(isset($response['name'])); // User's name should be public.
-		Assert::true(isset($response['first_name'])); // User's first name should be public.
-		Assert::true(isset($response['last_name'])); // User's last name should be public.
-		Assert::false(isset($response['work'])); // User's work history should only be available with a valid access token.
-		Assert::false(isset($response['education'])); // User's education history should only be available with a valid access token.
-		Assert::false(isset($response['verified'])); // User's verification status should only be available with a valid access token.
 	}
 
 
@@ -540,18 +514,6 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 
 		$facebook = $this->createWithRequest($url, NULL, array($facebook->config->getSignedRequestCookieName() => $signedRequestWithEmptyValue));
 		Assert::null($facebook->getSignedRequest());
-	}
-
-
-
-	public function testBundledCACert()
-	{
-		$facebook = $this->createWithRequest();
-
-		// use the bundled cert from the start
-		$this->apiClient->curlOptions[CURLOPT_CAINFO] = Kdyby\CurlCaBundle\CertificateHelper::getCaInfoFile();
-		$response = $facebook->api('/naitik');
-		Assert::same($response['id'], '5526183'); // should get expected id.
 	}
 
 
@@ -885,6 +847,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 		$apiClient = $facebook->mockApiClient();
+		$apiClient->response = '{}';
 
 		$token = $facebook->getAccessToken();
 		$proof = $facebook->config->getAppSecretProof($token);
@@ -899,6 +862,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 		$apiClient = $facebook->mockApiClient();
+		$apiClient->response = '{}';
 
 		$proof = 'foo';
 		$facebook->api('/mattynoce', array('appsecret_proof' => $proof));
@@ -912,6 +876,7 @@ class FacebookTest extends KdybyTests\FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 		$apiClient = $facebook->mockApiClient();
+		$apiClient->response = '{}';
 
 		$facebook->api('/naitik', $params = array(
 			'method' => 'get',
