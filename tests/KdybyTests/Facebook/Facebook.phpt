@@ -19,6 +19,8 @@ use Nette\Application\Routers\Route;
 use Tester;
 use Tester\Assert;
 
+
+
 require_once __DIR__ . '/../bootstrap.php';
 
 
@@ -26,7 +28,7 @@ require_once __DIR__ . '/../bootstrap.php';
 /**
  * @author Filip Procházka <filip@prochazka.su>
  */
-class FacebookTest extends KdybyTests\FacebookTestCase
+class FacebookTest extends FacebookTestCase
 {
 	const TEST_USER = 499834690;
 	const TEST_USER_2 = 499835484;
