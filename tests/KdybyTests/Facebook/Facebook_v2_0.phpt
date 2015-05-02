@@ -126,11 +126,9 @@ class Facebook_v2_0Test extends FacebookTestCase
 		$profile = $facebook->getProfile();
 		Assert::same('Filip Test Procházka', $profile->details['name']);
 
-		Assert::same(array(
-			'user_friends' => TRUE,
-			'public_profile' => TRUE,
-			'installed' => TRUE,
-		), (array) $profile->getPermissions());
+		Assert::true($profile->permissions['user_friends']);
+		Assert::true($profile->permissions['public_profile']);
+		Assert::true($profile->permissions['installed']);
 	}
 
 

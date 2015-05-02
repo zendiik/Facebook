@@ -20,6 +20,7 @@ use Nette\Utils\ArrayHash;
  *
  * @property ArrayHash $details
  * @property string $pictureUrl
+ * @property array $permissions
  */
 class Profile extends Nette\Object
 {
