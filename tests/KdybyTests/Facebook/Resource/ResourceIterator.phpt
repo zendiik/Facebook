@@ -10,11 +10,12 @@
 
 namespace KdybyTests\Facebook\Resource;
 
-use Kdyby\Facebook\Resource\ResourceLoader;
 use KdybyTests;
 use Tester\Assert;
 
-require_once __DIR__ . '/ResourceTestCase.php';
+
+
+require_once __DIR__ . '/../../bootstrap.php';
 
 /**
  * @author Martin Štekl <martin.stekl@gmail.com>
