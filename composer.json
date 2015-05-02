@@ -48,7 +48,8 @@
 		"latte/latte": "~2.3@dev",
 		"tracy/tracy": "~2.3@dev",
 
-		"nette/tester": "~1.3@rc"
+		"nette/tester": "~1.3@rc",
+		"kdyby/fake-session": "@dev"
 	},
 	"support": {
 		"email": "filip@prochazka.su",
