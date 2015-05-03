@@ -128,7 +128,6 @@ class Facebook_v2_1Test extends FacebookTestCase
 
 		Assert::true($profile->permissions['user_friends']);
 		Assert::true($profile->permissions['public_profile']);
-		Assert::true($profile->permissions['user_posts']);
 	}
 
 

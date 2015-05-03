@@ -196,6 +196,8 @@ class MockedApiClient extends CurlClient implements ApiClient
 	public $response; // empty response
 	public $throw;
 
+	public $onResponse = [];
+
 
 	protected function makeRequest($url, array $params, $ch = NULL)
 	{
@@ -207,6 +209,13 @@ class MockedApiClient extends CurlClient implements ApiClient
 
 		if ($this->response !== NULL) {
 			return $this->response;
+		}
+
+		foreach ($this->onResponse as $cb) {
+			$response = call_user_func($cb, $url, $params, $ch);
+			if ($response !== NULL) {
+				return $response;
+			}
 		}
 
 		return parent::makeRequest($url, $params, $ch);
