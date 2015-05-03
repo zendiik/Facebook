@@ -152,20 +152,6 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 
 
 	/**
-	 * Loads first data source.
-	 */
-	private function load()
-	{
-		if ($this->lastResult === NULL) {
-			$this->lastResult = $this->facebook->api($this->pathOrParams, $this->method, $this->params);
-		} elseif ($this->hasNextPage()) {
-			$this->lastResult = $this->facebook->api($this->getNextPath());
-		}
-	}
-
-
-
-	/**
 	 * Checks if list has next page.
 	 *
 	 * @return bool
@@ -196,9 +182,17 @@ class ResourceLoader extends Object implements IteratorAggregate, IResourceLoade
 	 */
 	public function getNextPage()
 	{
-		$this->load();
+		if ($this->lastResult === NULL) {
+			$this->lastResult = $this->facebook->api($this->pathOrParams, $this->method, $this->params);
 
-		return $this->lastResult ? $this->lastResult->data : ArrayHash::from(array());
+		} elseif ($this->hasNextPage()) {
+			$this->lastResult = $this->facebook->api($this->getNextPath());
+
+		} else {
+			$this->lastResult = ArrayHash::from(array('data' => []));
+		}
+
+		return $this->lastResult ? $this->lastResult->data : ArrayHash::from(array('data' => []));
 	}
 
 

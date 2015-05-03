@@ -104,7 +104,7 @@ abstract class FacebookTestCase extends Tester\TestCase
 			throw new \LogicException(sprintf('Before calling this method, init a container using %s::createContainer()', get_called_class()));
 		}
 
-		$testUser = __DIR__ . '/files/' . sprintf('/test-user-%s.json', $this->config->graphVersion);
+		$testUser = dirname(TEMP_DIR) . sprintf('/test-user-%s.json', $this->config->graphVersion);
 		if (!is_dir($dir = dirname($testUser))) {
 			@mkdir($dir, 0777, TRUE);
 		}
