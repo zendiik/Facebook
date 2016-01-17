@@ -256,18 +256,6 @@ class FacebookTest extends FacebookTestCase
 
 
 
-	public function testAPIForLoggedOutUsers()
-	{
-		$facebook = $this->createWithRequest();
-
-		$response = $facebook->api('/4');
-
-		Assert::same('4', $response['id']);
-		Assert::same('Mark Zuckerberg', $response['name']);
-	}
-
-
-
 	public function testAPIWithBogusAccessToken()
 	{
 		$facebook = $this->createWithRequest();
