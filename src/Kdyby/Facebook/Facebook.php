@@ -267,15 +267,16 @@ class Facebook extends Nette\Object
 				return FALSE;
 			}
 
-			parse_str($response, $params);
-			if (!isset($params['access_token'])) {
-				return FALSE;
-			}
+			$params = $this->decodeAccessToken($response);
 
 			$this->destroySession();
 			$this->session->access_token = $params['access_token'];
 
 			return TRUE;
+
+		} catch (InvalidArgumentException $e) {
+			// the token cannot be parsed
+			return FALSE;
 
 		} catch (FacebookApiException $e) {
 			// most likely that user very recently revoked authorization.
@@ -527,19 +528,13 @@ class Facebook extends Nette\Object
 			return FALSE;
 		}
 
-		$params = array();
 		try {
-			$params = Nette\Utils\Json::decode($accessToken, Nette\Utils\Json::FORCE_ARRAY);
+			$params = $this->decodeAccessToken($accessToken);
+			return $params['access_token'];
 
-		} catch (Nette\Utils\JsonException $e) {
-			parse_str($accessToken, $params);
-		}
-
-		if (!isset($params['access_token'])) {
+		} catch (InvalidArgumentException $e) {
 			return FALSE;
 		}
-
-		return $params['access_token'];
 	}
 
 
@@ -651,6 +646,29 @@ class Facebook extends Nette\Object
 		}
 
 		return $default;
+	}
+
+
+
+	/**
+	 * @param string $raw
+	 * @return array
+	 */
+	protected function decodeAccessToken($raw)
+	{
+		$params = array();
+		try {
+			$params = Nette\Utils\Json::decode($raw, Nette\Utils\Json::FORCE_ARRAY);
+
+		} catch (Nette\Utils\JsonException $e) {
+			parse_str($raw, $params);
+		}
+
+		if (!is_array($params) || !array_key_exists('access_token', $params)) {
+			throw new InvalidArgumentException("Given token $raw cannot be parsed");
+		}
+
+		return $params;
 	}
 
 }
