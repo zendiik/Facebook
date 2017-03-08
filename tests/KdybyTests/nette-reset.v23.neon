@@ -1,0 +1,18 @@
+php:
+	date.timezone: Europe/Prague
+
+extensions:
+	fakeSession: Kdyby\FakeSession\DI\FakeSessionExtension
+
+fakeSession:
+	enabled: yes
+
+services:
+	cacheStorage:
+		class: Nette\Caching\Storages\MemoryStorage
+
+http:
+	frames: null
+
+session:
+	autoStart: false
