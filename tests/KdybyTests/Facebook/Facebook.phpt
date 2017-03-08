@@ -309,7 +309,7 @@ class FacebookTest extends FacebookTestCase
 
 		} catch (FacebookApiException $e) {
 			// means the server got the access token and didn't like it
-			Assert::match('OAuthException: 190: Error validating access token: %a%', (string) $e);
+			Assert::match('OAuthException: 190: Error validating%a%', (string) $e);
 		}
 	}
 
