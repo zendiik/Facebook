@@ -48,13 +48,13 @@ class HelpersTest extends Tester\TestCase
 
 	public function dataIsAllowedDomain()
 	{
-		return array(
-			array('fbrell.com', 'fbrell.com', TRUE),
-			array('foo.fbrell.com', 'fbrell.com', TRUE),
-			array('foofbrell.com', 'fbrell.com', FALSE),
-			array('evil.com', 'fbrell.com', FALSE),
-			array('foo.fbrell.com', 'bar.fbrell.com', FALSE),
-		);
+		return [
+			['fbrell.com', 'fbrell.com', TRUE],
+			['foo.fbrell.com', 'fbrell.com', TRUE],
+			['foofbrell.com', 'fbrell.com', FALSE],
+			['evil.com', 'fbrell.com', FALSE],
+			['foo.fbrell.com', 'bar.fbrell.com', FALSE],
+		];
 	}
 
 }

@@ -66,10 +66,10 @@ class Facebook_v2_0Test extends FacebookTestCase
 		$this->session->state = md5(uniqid(mt_rand(), TRUE)); // $facebook->getSession()->establishCSRFTokenState();
 		$code = md5(uniqid(mt_rand(), TRUE));
 
-		$facebook = $this->createWithRequest(NULL, array(
+		$facebook = $this->createWithRequest(NULL, [
 			'code' => $code,
 			'state' => $this->session->state
-		));
+		]);
 
 		Assert::same($code, $facebook->publicGetCode());
 	}
@@ -81,10 +81,10 @@ class Facebook_v2_0Test extends FacebookTestCase
 		$this->session->state = md5(uniqid(mt_rand(), TRUE)); // $facebook->getSession()->establishCSRFTokenState();
 		$code = md5(uniqid(mt_rand(), TRUE));
 
-		$facebook = $this->createWithRequest(NULL, array(
+		$facebook = $this->createWithRequest(NULL, [
 			'code' => $code,
 			'state' => $this->session->state . 'forgery!!!'
-		));
+		]);
 
 		Assert::false($facebook->publicGetCode());
 	}
@@ -95,9 +95,9 @@ class Facebook_v2_0Test extends FacebookTestCase
 	{
 		$code = md5(uniqid(mt_rand(), TRUE));
 
-		$facebook = $this->createWithRequest(NULL, array(
+		$facebook = $this->createWithRequest(NULL, [
 			'code' => $code,
-		));
+		]);
 
 		// intentionally don't set CSRF token at all
 		Assert::false($facebook->publicGetCode());
@@ -107,9 +107,9 @@ class Facebook_v2_0Test extends FacebookTestCase
 
 	public function testGetUserFromSignedRequest()
 	{
-		$facebook = $this->createWithRequest(NULL, array(
+		$facebook = $this->createWithRequest(NULL, [
 			'signed_request' => $this->kValidSignedRequest(),
-		));
+		]);
 
 		Assert::same($this->testUser->id, $facebook->getUser());
 	}
@@ -135,21 +135,21 @@ class Facebook_v2_0Test extends FacebookTestCase
 
 	public function testSignedRequestRewrite()
 	{
-		$facebook = $this->createWithRequest(NULL, array(
+		$facebook = $this->createWithRequest(NULL, [
 			'signed_request' => $this->kValidSignedRequest($this->testUser->id, 'Hello sweetie'),
-		));
+		]);
 
 		Assert::same($this->testUser->id, $facebook->getUser());
 		Assert::same('Hello sweetie', $facebook->getAccessToken());
 
 		$facebook->uncache();
-		$facebook->setHttpRequest(NULL, array(
+		$facebook->setHttpRequest(NULL, [
 			'signed_request' => $this->kValidSignedRequest($this->testUser2->id, 'spoilers')
-		));
+		]);
 
 		Assert::equal($this->testUser2->id, $facebook->getUser());
 
-		$facebook->setHttpRequest(NULL, array('signed_request' => NULL));
+		$facebook->setHttpRequest(NULL, ['signed_request' => NULL]);
 		$facebook->uncacheSignedRequest();
 
 		Assert::notEqual('Hello sweetie', $facebook->getAccessToken());
@@ -159,9 +159,9 @@ class Facebook_v2_0Test extends FacebookTestCase
 
 	public function testGetSignedRequestFromCookie()
 	{
-		$facebook = $this->createWithRequest(NULL, NULL, array(
+		$facebook = $this->createWithRequest(NULL, NULL, [
 			$this->config->getSignedRequestCookieName() => $this->kValidSignedRequest()
-		));
+		]);
 
 		Assert::notSame(NULL, $facebook->getSignedRequest());
 		Assert::same($this->testUser->id, $facebook->getUser());
@@ -171,13 +171,13 @@ class Facebook_v2_0Test extends FacebookTestCase
 
 	public function testGetSignedRequestWithIncorrectSignature()
 	{
-		$bogusSignature = Kdyby\Facebook\SignedRequest::encode(array(
+		$bogusSignature = Kdyby\Facebook\SignedRequest::encode([
 			'algorithm' => 'HMAC-SHA256',
-		), 'bogus');
+		], 'bogus');
 
-		$facebook = $this->createWithRequest(NULL, NULL, array(
+		$facebook = $this->createWithRequest(NULL, NULL, [
 			$this->config->getSignedRequestCookieName() => $bogusSignature
-		));
+		]);
 
 		Assert::null($facebook->getSignedRequest());
 	}
@@ -303,7 +303,7 @@ class Facebook_v2_0Test extends FacebookTestCase
 	{
 		$facebook = $this->createWithRequest();
 		$facebook->forcedCode = $code = 'code1';
-		$facebook->forcedAccessTokenFromCode_Map[json_encode(array($code))] = $access_token = 'at1';
+		$facebook->forcedAccessTokenFromCode_Map[json_encode([$code])] = $access_token = 'at1';
 
 		Assert::same($access_token, $facebook->getAccessToken());
 	}
@@ -313,7 +313,7 @@ class Facebook_v2_0Test extends FacebookTestCase
 	public function testSignedRequestWithoutAuthClearsDataInAvailData()
 	{
 		$facebook = $this->createWithRequest();
-		$facebook->forcedSignedRequest = array('foo' => 1);
+		$facebook->forcedSignedRequest = ['foo' => 1];
 		$sessionStorage = $facebook->mockSessionStorage();
 
 		Assert::false($sessionStorage->clearCalled);
@@ -358,7 +358,7 @@ class Facebook_v2_0Test extends FacebookTestCase
 		$apiClient = $facebook->mockApiClient();
 
 		$proof = 'foo';
-		$facebook->api('/' . $this->testUser->id, array('appsecret_proof' => $proof));
+		$facebook->api('/' . $this->testUser->id, ['appsecret_proof' => $proof]);
 
 		Assert::same($proof, $apiClient->calls[0][1]['appsecret_proof']);
 	}
@@ -367,10 +367,10 @@ class Facebook_v2_0Test extends FacebookTestCase
 
 	private function kValidSignedRequest($id = NULL, $oauth_token = NULL)
 	{
-		return Kdyby\Facebook\SignedRequest::encode(array(
+		return Kdyby\Facebook\SignedRequest::encode([
 			'user_id' => $id ?: $this->testUser->id,
 			'oauth_token' => $oauth_token
-		), $this->config->appSecret);
+		], $this->config->appSecret);
 	}
 
 }

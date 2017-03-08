@@ -47,7 +47,7 @@ class SignedRequestTest extends KdybyTests\Facebook\FacebookTestCase
 
 	public function testMakeAndParse()
 	{
-		$data = array('foo' => 42);
+		$data = ['foo' => 42];
 		$sr = Kdyby\Facebook\SignedRequest::encode($data, $this->config->appSecret);
 		$decoded = Kdyby\Facebook\SignedRequest::decode($sr, $this->config->appSecret);
 		Assert::same($data['foo'], $decoded['foo']);
@@ -68,7 +68,7 @@ class SignedRequestTest extends KdybyTests\Facebook\FacebookTestCase
 
 	private function kSignedRequestWithWrongAlgorithm()
 	{
-		$data = array('algorithm' => 'foo');
+		$data = ['algorithm' => 'foo'];
 		$json = json_encode($data);
 		$b64 = Kdyby\Facebook\Helpers::base64UrlEncode($json);
 		$raw_sig = hash_hmac('sha256', $b64, $this->config->appSecret, $raw = TRUE);

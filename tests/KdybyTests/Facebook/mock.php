@@ -32,7 +32,7 @@ class MockedFacebook extends Facebook
 	public $forcedSignedRequest;
 
 	public $forcedAccessTokenFromCode;
-	public $forcedAccessTokenFromCode_Map = array();
+	public $forcedAccessTokenFromCode_Map = [];
 
 	public $forcedAccessToken;
 
@@ -192,7 +192,7 @@ class MockedFacebook extends Facebook
 class MockedApiClient extends CurlClient implements ApiClient
 {
 
-	public $calls = array();
+	public $calls = [];
 	public $response; // empty response
 	public $throw;
 

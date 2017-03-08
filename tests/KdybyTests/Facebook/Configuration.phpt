@@ -57,7 +57,7 @@ class ConfigurationTest extends TestCase
 
 	public function testCreateUrl()
 	{
-		Assert::equal('https://api.facebook.com/me?feed=me', (string) $this->config->createUrl('api', 'me', array('feed' => 'me')));
+		Assert::equal('https://api.facebook.com/me?feed=me', (string) $this->config->createUrl('api', 'me', ['feed' => 'me']));
 		Assert::equal('https://api.facebook.com/restserver.php', (string) $this->config->getApiUrl('api'));
 
 		Assert::equal('https://graph.facebook.com/', (string) $this->config->createUrl('graph'));

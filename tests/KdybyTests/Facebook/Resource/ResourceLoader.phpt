@@ -29,13 +29,13 @@ class ResourceLoaderTest extends ResourceTestCase
 	public function testAddField()
 	{
 		$loader = $this->loader;
-		Assert::same(array(), $loader->getFields());
+		Assert::same([], $loader->getFields());
 
 		$loader->addField("message");
-		Assert::same(array("message"), $loader->getFields());
+		Assert::same(["message"], $loader->getFields());
 
 		$loader->addField("from");
-		Assert::same(array("message", "from"), $loader->getFields());
+		Assert::same(["message", "from"], $loader->getFields());
 	}
 
 
@@ -43,16 +43,16 @@ class ResourceLoaderTest extends ResourceTestCase
 	public function testSetFields()
 	{
 		$loader = $this->loader;
-		Assert::same(array(), $loader->getFields());
+		Assert::same([], $loader->getFields());
 
-		$loader->setFields(array("message"));
-		Assert::same(array("message"), $loader->getFields());
+		$loader->setFields(["message"]);
+		Assert::same(["message"], $loader->getFields());
 
-		$loader->setFields(array("from"));
-		Assert::same(array("from"), $loader->getFields());
+		$loader->setFields(["from"]);
+		Assert::same(["from"], $loader->getFields());
 
 		$loader->setFields();
-		Assert::same(array(), $loader->getFields());
+		Assert::same([], $loader->getFields());
 	}
 
 
@@ -109,7 +109,7 @@ class ResourceLoaderTest extends ResourceTestCase
 	public function testGetNextPage()
 	{
 		$loader = $this->loader;
-		$loader->setFields(array("id", "message"));
+		$loader->setFields(["id", "message"]);
 
 		$nextPage = array_values((array) $loader->getNextPage());
 		Assert::equal("Testovací status 5", $nextPage[0]->message);
@@ -128,7 +128,7 @@ class ResourceLoaderTest extends ResourceTestCase
 	public function testReset()
 	{
 		$loader = $this->loader;
-		$loader->setFields(array("id", "message"));
+		$loader->setFields(["id", "message"]);
 
 		$nextPage = array_values((array) $loader->getNextPage());
 		Assert::equal("Testovací status 5", $nextPage[0]->message);

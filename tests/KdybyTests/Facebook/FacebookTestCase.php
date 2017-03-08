@@ -116,21 +116,21 @@ abstract class FacebookTestCase extends Tester\TestCase
 
 			$stat = fstat($h);
 			if (!$stat['size']) {
-				$testUser = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', array(
+				$testUser = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', [
 					'installed' => TRUE,
 					'name' => 'Filip Test Procházka',
 					'locale' => 'en_US',
 					'permissions' => 'read_stream,user_photos',
-				));
+				]);
 
-				$testUser2 = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', array(
+				$testUser2 = $this->facebook->api('/' . $this->config->appId . '/accounts/test-users', 'POST', [
 					'installed' => TRUE,
 					'name' => 'Jan Test Procházka',
 					'locale' => 'en_US',
 					'permissions' => 'read_stream,user_photos',
-				));
+				]);
 
-				fwrite($h, json_encode(array($testUser, $testUser2), defined('JSON_PRETTY_PRINT') ? constant('JSON_PRETTY_PRINT') : 0));
+				fwrite($h, json_encode([$testUser, $testUser2], defined('JSON_PRETTY_PRINT') ? constant('JSON_PRETTY_PRINT') : 0));
 			}
 
 			flock($h, LOCK_UN);
@@ -193,7 +193,7 @@ abstract class FacebookTestCase extends Tester\TestCase
 		$this->container->callInjects($presenter);
 
 		$query = $this->container->getService('httpRequest')->getQuery();
-		$presenter->run(new Nette\Application\Request('Mock', 'GET', array('action' => 'default') + $query));
+		$presenter->run(new Nette\Application\Request('Mock', 'GET', ['action' => 'default'] + $query));
 
 		$presenter->addComponent($component, $name);
 

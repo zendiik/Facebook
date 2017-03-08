@@ -37,7 +37,7 @@ class Panel extends Nette\Object implements IBarPanel
 	/**
 	 * @var array
 	 */
-	private $calls = array();
+	private $calls = [];
 
 	/**
 	 * @var \stdClass
@@ -87,7 +87,7 @@ class Panel extends Nette\Object implements IBarPanel
 		}
 
 		$click = class_exists('\Tracy\Dumper')
-			? function ($o, $c = FALSE) { return \Tracy\Dumper::toHtml($o, array('collapse' => $c)); }
+			? function ($o, $c = FALSE) { return \Tracy\Dumper::toHtml($o, ['collapse' => $c]); }
 			: '\Tracy\Helpers::clickableDump';
 		$totalTime = $this->totalTime ? sprintf('%0.3f', $this->totalTime * 1000) . ' ms' : 'none';
 
@@ -104,14 +104,14 @@ class Panel extends Nette\Object implements IBarPanel
 	public function begin($url, array $params)
 	{
 		if ($this->current) return;
-		$this->calls[] = $this->current = (object)array(
+		$this->calls[] = $this->current = (object)[
 			'url' => $url,
 			'params' => $params,
 			'result' => NULL,
 			'exception' => NULL,
-			'info' => array(),
+			'info' => [],
 			'time' => 0,
-		);
+		];
 	}
 
 

@@ -29,7 +29,7 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionConstructorWithErrorCode()
 	{
-		$e = new FacebookApiException(array('error_code' => $code = 404));
+		$e = new FacebookApiException(['error_code' => $code = 404]);
 		Assert::same($code, $e->getCode());
 	}
 
@@ -37,7 +37,7 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionConstructorWithInvalidErrorCode()
 	{
-		$e = new FacebookApiException(array('error_code' => 'not an int'));
+		$e = new FacebookApiException(['error_code' => 'not an int']);
 		Assert::same(0, $e->getCode());
 	}
 
@@ -56,7 +56,7 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionTypeMixedDraft00()
 	{
-		$e = new FacebookApiException(array('error' => array('message' => 'foo')));
+		$e = new FacebookApiException(['error' => ['message' => 'foo']]);
 		Assert::same('Exception', $e->getType());
 	}
 
@@ -65,7 +65,7 @@ class ApiExceptionTest extends Tester\TestCase
 	public function testExceptionTypeDraft00()
 	{
 		$error = 'foo';
-		$e = new FacebookApiException(array('error' => array('type' => $error, 'message' => 'hello world')));
+		$e = new FacebookApiException(['error' => ['type' => $error, 'message' => 'hello world']]);
 		Assert::same($error, $e->getType());
 	}
 
@@ -73,7 +73,7 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionTypeDraft10()
 	{
-		$e = new FacebookApiException(array('error' => $error = 'foo'));
+		$e = new FacebookApiException(['error' => $error = 'foo']);
 		Assert::same($error, $e->getType());
 	}
 
@@ -81,7 +81,7 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionTypeDefault()
 	{
-		$e = new FacebookApiException(array('error' => FALSE));
+		$e = new FacebookApiException(['error' => FALSE]);
 		Assert::same('Exception', $e->getType());
 	}
 
@@ -89,10 +89,10 @@ class ApiExceptionTest extends Tester\TestCase
 
 	public function testExceptionToString()
 	{
-		$e = new FacebookApiException(array(
+		$e = new FacebookApiException([
 			'error_code' => 1,
 			'error_description' => 'foo',
-		));
+		]);
 		Assert::same('Exception: 1: foo', (string) $e);
 	}
 
