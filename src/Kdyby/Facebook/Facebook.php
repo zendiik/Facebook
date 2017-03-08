@@ -197,7 +197,7 @@ class Facebook extends Nette\Object
 	/**
 	 * Get the UID of the connected user, or 0 if the Facebook user is not connected.
 	 *
-	 * @return string the UID if available.
+	 * @return string|integer the UID if available.
 	 */
 	public function getUser()
 	{
