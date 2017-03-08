@@ -159,8 +159,16 @@ abstract class FacebookTestCase extends Tester\TestCase
 
 		$router = $this->container->getService('router');
 		unset($router[0]);
-		$flags = $url->scheme === 'https' ? Nette\Application\Routers\Route::SECURED : 0;
-		$router[] = new Nette\Application\Routers\Route('unit-tests/<presenter>/<action>', 'Mock:default', $flags);
+
+		$route = new Nette\Application\Routers\Route('/unit-tests/<presenter>/<action>', 'Mock:default');
+		if ($url->scheme === 'https') {
+			$testingUrl = new Nette\Http\UrlScript($route->constructUrl(new Nette\Application\Request('Mock', 'GET', []), $url));
+			if ($testingUrl->scheme !== 'https') {
+				$route = new Nette\Application\Routers\Route('unit-tests/<presenter>/<action>', 'Mock:default', Nette\Application\Routers\Route::SECURED);
+			}
+		}
+
+		$router[] = $route;
 
 		return new MockedFacebook(
 			$this->config,
