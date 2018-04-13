@@ -166,9 +166,9 @@ class Panel implements IBarPanel
 	 */
 	public function register(CurlClient $client)
 	{
-		$client->onRequest[] = $this->begin;
-		$client->onError[] = $this->failure;
-		$client->onSuccess[] = $this->success;
+		$client->onRequest[] = [$this, 'begin'];
+		$client->onError[] = [$this, 'failure'];
+		$client->onSuccess[] = [$this, 'success'];
 
 		Debugger::getBar()->addPanel($this);
 	}
